@@ -1,0 +1,12 @@
+2025-12-02 14:48:18,663 - INFO - 抓取网页: https://www.secrss.com/articles/85412
+2025-12-02 14:48:19,540 - INFO - 抓取成功，长度: 18662 字符
+2025-12-02 14:48:19,579 - INFO - 解析完成，HTML长度: 1047 字符，嵌入图片数: 0
+2025-12-02 14:48:19,580 - INFO - 带图片的HTML已保存到 email_with_images.html
+2025-12-02 14:48:19,581 - INFO - 连接SMTP服务器: smtp.qq.com:587
+2025-12-02 14:48:40,998 - ERROR - 邮件发送失败: (550, b'The "From" header is missing or invalid. Please follow RFC5322, RFC2047, RFC822 standard protocol. https://service.mail.qq.com/detail/124/995.')
+Traceback (most recent call last):
+  File "D:\python project\first\网络安全预警通告.py", line 218, in send_email_with_images
+    smtp_client.sendmail(smtp_config['sender'], to_emails, msg.as_string())
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\smtplib.py", line 908, in sendmail
+    raise SMTPDataError(code, resp)
+smtplib.SMTPDataError: (550, b'The "From" header is missing or invalid. Please follow RFC5322, RFC2047, RFC822 standard protocol. https://service.mail.qq.com/detail/124/995.')

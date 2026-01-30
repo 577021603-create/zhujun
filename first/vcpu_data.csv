@@ -1,0 +1,7 @@
+区域名称,可用区名称,集群名称,资源池ID,总量(物理),使用量(物理),超分比,可分配总量,已分配量,计算节点数,系统预留
+gzy-hlw,az1,gzy-hlwcloud,海光x86,784.00Cores,470.00Cores,4,3136.00vCPUs,1880.00vCPUs,8,48Cores
+gzy-hlw,az1,gzy-hlwcloud,鲲鹏arm,240.00Cores,16.50Cores,4,960.00vCPUs,66.00vCPUs,2,16Cores
+gzy-hlw,az1,gzy-hlwcloud,GUP-Intel-X86,294.00Cores,2.00Cores,4,1176.00vCPUs,8.00vCPUs,3,18Cores
+gzy-zwww,az1,gzy-cloud,Hygon7380,2248.00Cores,1090.00Cores,4,8992.00vCPUs,4360.00vCPUs,20,120Cores
+gzy-zwww,az1,gzy-cloud,平安甘孜-华为服务器,352.00Cores,113.50Cores,4,1408.00vCPUs,454.00vCPUs,4,32Cores
+gzy-zwww,az1,gzy-cloud,GPUAscend910B3,368.00Cores,56.00Cores,4,1472.00vCPUs,224.00vCPUs,2,16Cores

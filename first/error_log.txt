@@ -1,0 +1,24 @@
+错误信息：Message: session not created: Chrome instance exited. Examine ChromeDriver verbose log to determine the cause.
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0x7ff62c0288e5
+	0x7ff62c028940
+	0x7ff62be0165d
+	0x7ff62be40050
+	0x7ff62be3b7dd
+	0x7ff62be90186
+	0x7ff62be8fa06
+	0x7ff62be4ac29
+	0x7ff62be4ba93
+	0x7ff62c340640
+	0x7ff62c33af80
+	0x7ff62c3596e6
+	0x7ff62c045de4
+	0x7ff62c04ed8c
+	0x7ff62c032004
+	0x7ff62c0321b5
+	0x7ff62c017ee2
+	0x7ffd477e7374
+	0x7ffd497fcc91
+
+错误行号：52

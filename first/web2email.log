@@ -1,0 +1,151 @@
+2025-12-02 12:52:12,072 - INFO - ���ڻ�ȡ��ҳ: https://www.secrss.com/articles/85412
+2025-12-02 12:52:12,894 - INFO - ��ҳ��ȡ�ɹ�������: 18662 �ַ�
+2025-12-02 12:52:12,895 - INFO - ��ʼ������ҳ����
+2025-12-02 12:52:12,910 - WARNING - ѡ���� h1.article-title δƥ�䵽����
+2025-12-02 12:52:12,911 - WARNING - ѡ���� div.article-meta span:nth-child(1) δƥ�䵽����
+2025-12-02 12:52:12,913 - WARNING - ѡ���� div.article-meta span:nth-child(2) a δƥ�䵽����
+2025-12-02 12:52:12,920 - WARNING - ѡ���� div.article-content p δƥ�䵽����
+2025-12-02 12:52:12,920 - INFO - ������ɣ�����: δ�ҵ������������
+2025-12-02 12:52:12,924 - INFO - ����SMTP������: smtp.qq.com:587
+2025-12-02 12:52:33,842 - INFO - SMTP���ӳɹ�
+2025-12-02 12:52:33,843 - INFO - ���͵� 1/2 ���ʼ�
+2025-12-02 12:52:34,686 - ERROR - �ʼ�����ʧ��: (550, b'The "From" header is missing or invalid. Please follow RFC5322, RFC2047, RFC822 standard protocol. https://service.mail.qq.com/detail/124/995.')
+Traceback (most recent call last):
+  File "D:\python project\first\���簲ȫԤ��ͨ��.py", line 155, in send_email
+    self.smtp_client.sendmail(self.sender_email, to_emails, msg.as_string())
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\smtplib.py", line 908, in sendmail
+    raise SMTPDataError(code, resp)
+smtplib.SMTPDataError: (550, b'The "From" header is missing or invalid. Please follow RFC5322, RFC2047, RFC822 standard protocol. https://service.mail.qq.com/detail/124/995.')
+2025-12-02 12:52:34,691 - ERROR - �� 1 �鷢��ʧ��
+Traceback (most recent call last):
+  File "D:\python project\first\���簲ȫԤ��ͨ��.py", line 172, in mass_send_emails
+    self.send_email(to_emails, subject, content, email_type)
+  File "D:\python project\first\���簲ȫԤ��ͨ��.py", line 155, in send_email
+    self.smtp_client.sendmail(self.sender_email, to_emails, msg.as_string())
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\smtplib.py", line 908, in sendmail
+    raise SMTPDataError(code, resp)
+smtplib.SMTPDataError: (550, b'The "From" header is missing or invalid. Please follow RFC5322, RFC2047, RFC822 standard protocol. https://service.mail.qq.com/detail/124/995.')
+2025-12-02 12:52:34,693 - INFO - ���͵� 2/2 ���ʼ�
+2025-12-02 12:52:34,869 - ERROR - �ʼ�����ʧ��: (-1, b'\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x00250 OK', '2332586642@qq.com')
+Traceback (most recent call last):
+  File "D:\python project\first\���簲ȫԤ��ͨ��.py", line 155, in send_email
+    self.smtp_client.sendmail(self.sender_email, to_emails, msg.as_string())
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\smtplib.py", line 887, in sendmail
+    raise SMTPSenderRefused(code, resp, from_addr)
+smtplib.SMTPSenderRefused: (-1, b'\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x00250 OK', '2332586642@qq.com')
+2025-12-02 12:52:34,870 - ERROR - �� 2 �鷢��ʧ��
+Traceback (most recent call last):
+  File "D:\python project\first\���簲ȫԤ��ͨ��.py", line 172, in mass_send_emails
+    self.send_email(to_emails, subject, content, email_type)
+  File "D:\python project\first\���簲ȫԤ��ͨ��.py", line 155, in send_email
+    self.smtp_client.sendmail(self.sender_email, to_emails, msg.as_string())
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\smtplib.py", line 887, in sendmail
+    raise SMTPSenderRefused(code, resp, from_addr)
+smtplib.SMTPSenderRefused: (-1, b'\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x00250 OK', '2332586642@qq.com')
+2025-12-02 12:52:34,871 - INFO - �����������: �ܼ�2�飬�ɹ�0�飬ʧ��2��
+2025-12-02 12:52:34,924 - INFO - SMTP�����ѹر�
+2025-12-02 12:52:34,925 - INFO - ��������ִ����ɣ�
+2025-12-02 13:05:57,999 - INFO - ���ڻ�ȡ��ҳ: https://www.secrss.com/articles/85412
+2025-12-02 13:05:58,732 - INFO - ��ҳ��ȡ�ɹ�������: 18662 �ַ�
+2025-12-02 13:05:58,732 - INFO - ��ʼ������ҳ����
+2025-12-02 13:05:58,751 - WARNING - ѡ���� h1.article-title δƥ�䵽����
+2025-12-02 13:05:58,753 - WARNING - ѡ���� div.article-meta span:nth-child(1) δƥ�䵽����
+2025-12-02 13:05:58,755 - WARNING - ѡ���� div.article-meta span:nth-child(2) a δƥ�䵽����
+2025-12-02 13:05:58,762 - WARNING - ѡ���� div.article-content p δƥ�䵽����
+2025-12-02 13:05:58,762 - INFO - ������ɣ�����: δ�ҵ������������
+2025-12-02 13:05:58,764 - INFO - ����SMTP������: smtp.qq.com:587
+2025-12-02 13:51:03,945 - INFO - 正在加载网页: https://www.secrss.com/articles/85412
+2025-12-02 13:52:07,645 - ERROR - 网页加载失败: Message: Unable to obtain driver for chrome; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
+Traceback (most recent call last):
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\common\driver_finder.py", line 67, in _binary_paths
+    output = SeleniumManager().binary_paths(self._to_args())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\common\selenium_manager.py", line 54, in binary_paths
+    return self._run(args)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\common\selenium_manager.py", line 128, in _run
+    raise WebDriverException(
+selenium.common.exceptions.WebDriverException: Message: Unsuccessful command executed: C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\common\windows\selenium-manager.exe --browser chrome --language-binding python --output json; code: 65
+{'code': 65, 'message': 'error sending request for url (https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json)', 'driver_path': '', 'browser_path': ''}
+
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\python project\first\网络安全预警通告.py", line 58, in fetch_web_content
+    driver = webdriver.Chrome(options=self.chrome_options)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 47, in __init__
+    super().__init__(
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 53, in __init__
+    if finder.get_browser_path():
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\common\driver_finder.py", line 47, in get_browser_path
+    return self._binary_paths()["browser_path"]
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\common\driver_finder.py", line 78, in _binary_paths
+    raise NoSuchDriverException(msg) from err
+selenium.common.exceptions.NoSuchDriverException: Message: Unable to obtain driver for chrome; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
+
+2025-12-02 13:52:07,655 - ERROR - ❌ 流程执行失败: Message: Unable to obtain driver for chrome; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
+Traceback (most recent call last):
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\common\driver_finder.py", line 67, in _binary_paths
+    output = SeleniumManager().binary_paths(self._to_args())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\common\selenium_manager.py", line 54, in binary_paths
+    return self._run(args)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\common\selenium_manager.py", line 128, in _run
+    raise WebDriverException(
+selenium.common.exceptions.WebDriverException: Message: Unsuccessful command executed: C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\common\windows\selenium-manager.exe --browser chrome --language-binding python --output json; code: 65
+{'code': 65, 'message': 'error sending request for url (https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json)', 'driver_path': '', 'browser_path': ''}
+
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\python project\first\网络安全预警通告.py", line 227, in run
+    html = self.fetch_web_content(url)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\python project\first\网络安全预警通告.py", line 58, in fetch_web_content
+    driver = webdriver.Chrome(options=self.chrome_options)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 47, in __init__
+    super().__init__(
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 53, in __init__
+    if finder.get_browser_path():
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\common\driver_finder.py", line 47, in get_browser_path
+    return self._binary_paths()["browser_path"]
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\23325\AppData\Local\Programs\Python\Python311\Lib\site-packages\selenium\webdriver\common\driver_finder.py", line 78, in _binary_paths
+    raise NoSuchDriverException(msg) from err
+selenium.common.exceptions.NoSuchDriverException: Message: Unable to obtain driver for chrome; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
+
+2025-12-02 13:55:22,445 - INFO - 正在获取网页: https://www.secrss.com/articles/85412
+2025-12-02 13:55:23,248 - INFO - 网页获取成功，长度: 18662 字符
+2025-12-02 13:55:23,249 - INFO - 网页内容已保存到 web_content.html（可用于调试）
+2025-12-02 13:55:23,250 - INFO - 开始解析网页内容
+2025-12-02 13:55:23,284 - WARNING - 选择器 "body > div.container > div.row > div.col-md-8 > article > h1" 未匹配到任何内容
+2025-12-02 13:55:23,287 - WARNING - 选择器 "body > div.container > div.row > div.col-md-8 > article > div.article-meta > span:nth-child(1)" 未匹配到任何内容
+2025-12-02 13:55:23,290 - WARNING - 选择器 "body > div.container > div.row > div.col-md-8 > article > div.article-meta > span:nth-child(2) > a" 未匹配到任何内容
+2025-12-02 13:55:23,294 - WARNING - 选择器 "body > div.container > div.row > div.col-md-8 > article > div.article-content > p" 未匹配到任何内容
+2025-12-02 13:55:23,294 - INFO - 解析完成 - 标题: 未找到标题相关内容, 发布时间: 未找到发布时间相关内容
+2025-12-02 13:55:23,294 - INFO - 生成邮件内容预览:
+
+【未找到标题相关内容】
+
+📅 发布时间：未找到发布时间相关内容
+📤 来源：未找到来源相关内容
+🔗 原文链接：https://www.secrss.com/articles/85412
+
+未找到正文内容相关内容
+
+====================================
+⚠️  重要提示：此邮件由系统自动发送，请勿直接回复
+📧 邮件发送时间：2025-12-02 13:55:23
+====================================
+...
+2025-12-02 13:55:23,294 - INFO - 正在连接SMTP服务器: smtp.qq.com:587

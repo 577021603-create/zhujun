@@ -1,0 +1,578 @@
+#
+version 7.1.070, Release 8307P08
+#
+sysname ISPSW1-2-1-41U-hlw-101-gzy-region0-gzkd
+#
+clock timezone BeiJing add 08:00:00
+clock protocol ntp
+#
+ip vpn-instance CMCC
+route-distinguisher 1111:1
+#
+ip vpn-instance mgmt
+route-distinguisher 1000:1
+vpn-target 1000:1 import-extcommunity
+vpn-target 1000:1 export-extcommunity
+#
+irf mac-address persistent always
+irf auto-update enable
+irf auto-merge enable
+undo irf link-delay
+irf member 1 priority 31
+irf member 2 priority 1
+#
+mirroring-group 1 local
+#
+lldp global enable
+#
+vlan 1
+#
+vlan 998
+description to 广电
+#
+vlan 999
+description to nf广电
+#
+vlan 1000
+description To-电信
+#
+vlan 1001
+#
+vlan 2020
+description CTCC-IPV6
+#
+vlan 2081
+description To-移动
+#
+irf-port 1/1
+port group interface HundredGigE1/0/49 mode enhanced
+port group interface HundredGigE1/0/50 mode enhanced
+#
+irf-port 2/2
+port group interface HundredGigE2/0/49 mode enhanced
+port group interface HundredGigE2/0/50 mode enhanced
+#
+stp port-log instance 0 to 4094
+stp port-log vlan 1 to 4094
+stp global enable
+#
+interface NULL0
+#
+interface Vlan-interface1
+ip address dhcp-alloc
+dhcp client identifier ascii acce927c0b44-VLAN0001
+ipv6 address dhcp-alloc
+ipv6 dhcp client duid ascii acce927c0b44-VLAN0001
+#
+interface Vlan-interface998
+description to-广电外网
+ip address 60.255.195.42 255.255.255.252
+#
+interface Vlan-interface999
+description to-nf广电内网
+ip address 60.255.195.33 255.255.255.248
+#
+interface Vlan-interface1000
+description To-电信
+ip address 118.124.74.49 255.255.255.0
+ipv6 address 240E:699:C900:1::2/64
+#
+interface Vlan-interface2020
+ipv6 address FC10:1:1::1/64
+#
+interface Vlan-interface2081
+ip binding vpn-instance CMCC
+ip address 223.85.90.168 255.255.255.128
+#
+interface HundredGigE1/0/51
+port link-mode bridge
+#
+interface HundredGigE1/0/52
+port link-mode bridge
+#
+interface HundredGigE1/0/53
+port link-mode bridge
+#
+interface HundredGigE1/0/54
+port link-mode bridge
+#
+interface HundredGigE1/0/55
+port link-mode bridge
+#
+interface HundredGigE1/0/56
+port link-mode bridge
+#
+interface HundredGigE2/0/51
+port link-mode bridge
+#
+interface HundredGigE2/0/52
+port link-mode bridge
+#
+interface HundredGigE2/0/53
+port link-mode bridge
+#
+interface HundredGigE2/0/54
+port link-mode bridge
+#
+interface HundredGigE2/0/55
+port link-mode bridge
+#
+interface HundredGigE2/0/56
+port link-mode bridge
+#
+interface HundredGigE1/0/49
+#
+interface HundredGigE1/0/50
+#
+interface HundredGigE2/0/49
+#
+interface HundredGigE2/0/50
+#
+interface M-GigabitEthernet0/0/0
+ip binding vpn-instance mgmt
+ip address 10.1.13.14 255.255.255.0
+#
+interface Ten-GigabitEthernet1/0/10
+port link-mode route
+mirroring-group 1 monitor-port
+#
+interface Ten-GigabitEthernet1/0/1
+port link-mode bridge
+description To-移动
+port access vlan 2081
+#
+interface Ten-GigabitEthernet1/0/2
+port link-mode bridge
+description To-电信
+port access vlan 1000
+#
+interface Ten-GigabitEthernet1/0/3
+port link-mode bridge
+description To-广电
+port access vlan 998
+#
+interface Ten-GigabitEthernet1/0/4
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/5
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/6
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/7
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/8
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/9
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/11
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/12
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/13
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/14
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/15
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/16
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/17
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/18
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/19
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/20
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/21
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/22
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/23
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/24
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/25
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/26
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/27
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/28
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/29
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/30
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/31
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/32
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/33
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/34
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/35
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/36
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/37
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/38
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/39
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/40
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/41
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/42
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/43
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/44
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/45
+port link-mode bridge
+port access vlan 2081
+#
+interface Ten-GigabitEthernet1/0/46
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/47
+port link-mode bridge
+port access vlan 1000
+mirroring-group 1 mirroring-port both
+#
+interface Ten-GigabitEthernet1/0/48
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 999 1001 2020 2081
+#
+interface Ten-GigabitEthernet2/0/1
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/2
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/3
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/4
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/5
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/6
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/7
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/8
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/9
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/10
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/11
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/12
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/13
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/14
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/15
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/16
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/17
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/18
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/19
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/20
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/21
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/22
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/23
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/24
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/25
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/26
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/27
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/28
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/29
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/30
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/31
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/32
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/33
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/34
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/35
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/36
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/37
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/38
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/39
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/40
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/41
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/42
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/43
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/44
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/45
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/46
+port link-mode bridge
+#
+interface Ten-GigabitEthernet2/0/47
+port link-mode bridge
+port access vlan 1000
+#
+interface Ten-GigabitEthernet2/0/48
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 999 2020 2081
+#
+scheduler logfile size 16
+#
+line class console
+authentication-mode password
+user-role network-admin
+set authentication password hash $h$6$3jZYmtJcaxSwQECh$IryAazRe1MYNoM2l1UypkVrVqxsUKsK89AgFvZsUs0aAz42LG+e0m9QY2scd2Vmmf9Xg5Q8CbDTmKC/oH6SGrA==
+#
+line class vty
+user-role network-operator
+#
+line con 0 1
+user-role network-admin
+#
+line vty 0 5
+authentication-mode scheme
+user-role network-operator
+protocol inbound ssh
+#
+line vty 6 63
+user-role network-operator
+#
+ip route-static 0.0.0.0 0 60.255.195.41
+ip route-static 60.255.195.128 28 60.255.195.38
+ip route-static vpn-instance mgmt 0.0.0.0 0 10.1.13.254 description MGT_routes
+ip route-static vpn-instance CMCC 0.0.0.0 0 223.85.90.129 description CMCC
+ipv6 route-static :: 0 240E:699:C900:1::
+ipv6 route-static 240E:699:C901:300:: 62 FC10:1:1::6 description to_FW_CTC-IPV6
+#
+info-center loghost vpn-instance mgmt 10.1.1.1 port 30387
+info-center source default loghost level warning
+#
+snmp-agent
+snmp-agent local-engineid 800063A280ACCE927C0B4800000001
+snmp-agent sys-info contact CIS@CECLOUD
+snmp-agent sys-info location ISPSW1-2-1-41U-hlw-101-gzy-region0-gzkd
+snmp-agent sys-info version v2c v3
+snmp-agent group v3 snmpv3_cecloud privacy read-view ISO notify-view ISO
+snmp-agent mib-view included ISO iso
+snmp-agent usm-user v3 CECloud snmpv3_cecloud cipher authentication-mode sha $c$3$yZz6v6pclqvSnh01nxQBf0oCfRpckHGxKbqxvOzT64Rx+y8B4tc= privacy-mode aes128 $c$3$zDw3T7wuG5ma8IZ/J7zlQHOTQIn8VUz2vnTzan8QwZ6+bQ== acl 2001
+#
+ssh server enable
+ssh server acl 2001
+#
+arp ip-conflict log prompt
+arp user-ip-conflict record enable
+#
+ntp-service enable
+ntp-service noquery enable
+ntp-service unicast-peer 10.1.13.35 vpn-instance MGMT source M-GigabitEthernet0/0/0
+#
+acl basic 2001
+rule 0 permit vpn-instance mgmt source 10.0.0.0 0.255.255.255
+#
+password-control enable
+password-control aging 180
+password-control length 8
+password-control composition type-number 3 type-length 1
+password-control login-attempt 10 exceed lock-time 1
+password-control complexity same-character check
+#
+domain system
+#
+domain default enable system
+#
+role name level-0
+description Predefined level-0 role
+#
+role name level-1
+description Predefined level-1 role
+#
+role name level-2
+description Predefined level-2 role
+#
+role name level-3
+description Predefined level-3 role
+#
+role name level-4
+description Predefined level-4 role
+#
+role name level-5
+description Predefined level-5 role
+#
+role name level-6
+description Predefined level-6 role
+#
+role name level-7
+description Predefined level-7 role
+#
+role name level-8
+description Predefined level-8 role
+#
+role name level-9
+description Predefined level-9 role
+#
+role name level-10
+description Predefined level-10 role
+#
+role name level-11
+description Predefined level-11 role
+#
+role name level-12
+description Predefined level-12 role
+#
+role name level-13
+description Predefined level-13 role
+#
+role name level-14
+description Predefined level-14 role
+#
+user-group system
+password-control aging 180
+password-control length 8
+password-control composition type-number 3 type-length 1
+password-control login-attempt 10 exceed lock-time 1
+password-control complexity same-character check
+#
+local-user audituser class manage
+service-type ssh
+authorization-attribute user-role network-admin
+authorization-attribute user-role network-operator
+#
+local-user cecloud class manage
+service-type ssh
+authorization-attribute user-role network-admin
+authorization-attribute user-role network-operator
+#
+local-user operator class manage
+service-type ssh
+authorization-attribute user-role network-operator
+#
+security-enhanced level 1
+#
+undo ssl renegotiation disable
+undo ssl version ssl3.0 disable
+undo ssl version tls1.0 disable
+undo ssl version tls1.1 disable
+#
+return
+<ISPSW1-2-1-41U-hlw-101-gzy-region0-gzkd>

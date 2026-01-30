@@ -1,0 +1,364 @@
+#
+version 7.1.070, Release 8307P10
+#
+sysname GZY-Region2(hlw)-PSW2
+#
+clock timezone BeiJing add 08:00:00
+clock protocol ntp
+#
+ip vpn-instance MGMT
+route-distinguisher 1000:1
+vpn-target 1000:1 import-extcommunity
+vpn-target 1000:1 export-extcommunity
+#
+irf mac-address persistent always
+irf auto-update enable
+irf auto-merge enable
+undo irf link-delay
+irf member 1 priority 1
+#
+dhcp enable
+#
+lldp global enable
+#
+vlan 1
+#
+vlan 4000
+description To-管理FW
+#
+vlan 4094
+name mlag-peerlink
+#
+stp port-log instance 0 to 4094
+stp port-log vlan 1 to 4094
+stp global enable
+#
+interface Bridge-Aggregation16
+description To-管理FW
+port access vlan 4000
+port m-lag group 16
+#
+interface Bridge-Aggregation64
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 2 to 4094
+link-aggregation mode dynamic
+port m-lag peer-link 1
+undo mac-address static source-check enable
+#
+interface NULL0
+#
+interface LoopBack0
+description RouteID
+ip address 10.1.15.2 255.255.255.255
+#
+interface Vlan-interface4000
+description To-管理FW
+ip address 10.1.17.19 255.255.255.248
+vrrp vrid 240 virtual-ip 10.1.17.17
+#
+interface Vlan-interface4094
+description peer-link
+mtu 10240
+ip address 169.254.255.255 255.255.255.254
+ospf network-type p2p
+#
+interface HundredGigE1/0/1
+port link-mode route
+description To-ASW-1.1
+mtu 9008
+ip address 10.1.16.128 255.255.255.254
+#
+interface HundredGigE1/0/2
+port link-mode route
+description To-ASW-1.2
+mtu 9008
+ip address 10.1.16.130 255.255.255.254
+#
+interface HundredGigE1/0/3
+port link-mode route
+description To-ASW-3.1
+mtu 9008
+ip address 10.1.16.132 255.255.255.254
+#
+interface HundredGigE1/0/4
+port link-mode route
+description To-ASW-3.2
+mtu 9008
+ip address 10.1.16.134 255.255.255.254
+#
+interface HundredGigE1/0/5
+port link-mode route
+description To-ASW-4.1
+mtu 9008
+ip address 10.1.16.136 255.255.255.254
+#
+interface HundredGigE1/0/6
+port link-mode route
+description To-ASW-4.2
+mtu 9008
+ip address 10.1.16.138 255.255.255.254
+#
+interface HundredGigE1/0/7
+port link-mode route
+#
+interface HundredGigE1/0/8
+port link-mode route
+#
+interface HundredGigE1/0/9
+port link-mode route
+#
+interface HundredGigE1/0/10
+port link-mode route
+#
+interface HundredGigE1/0/11
+port link-mode route
+#
+interface HundredGigE1/0/12
+port link-mode route
+#
+interface HundredGigE1/0/13
+port link-mode route
+#
+interface HundredGigE1/0/14
+port link-mode route
+#
+interface HundredGigE1/0/15
+port link-mode route
+#
+interface HundredGigE1/0/17
+port link-mode route
+#
+interface HundredGigE1/0/18
+port link-mode route
+#
+interface HundredGigE1/0/19
+port link-mode route
+#
+interface HundredGigE1/0/20
+port link-mode route
+#
+interface HundredGigE1/0/21
+port link-mode route
+#
+interface HundredGigE1/0/22
+port link-mode route
+#
+interface HundredGigE1/0/23
+port link-mode route
+#
+interface HundredGigE1/0/24
+port link-mode route
+#
+interface HundredGigE1/0/25
+port link-mode route
+#
+interface HundredGigE1/0/26
+port link-mode route
+#
+interface HundredGigE1/0/27
+port link-mode route
+#
+interface HundredGigE1/0/28
+port link-mode route
+#
+interface HundredGigE1/0/29
+port link-mode route
+#
+interface HundredGigE1/0/30
+port link-mode route
+#
+interface HundredGigE1/0/31
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 2 to 4094
+port link-aggregation group 64
+#
+interface HundredGigE1/0/32
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 2 to 4094
+port link-aggregation group 64
+#
+interface M-GigabitEthernet0/0/0
+description Out-of-band management
+ip binding vpn-instance MGMT
+ip address 10.1.13.2 255.255.255.0
+#
+interface Ten-GigabitEthernet1/0/16:1
+port link-mode bridge
+description To-管理FW
+port access vlan 4000
+#
+interface Ten-GigabitEthernet1/0/16:2
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/16:3
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/16:4
+port link-mode bridge
+#
+bgp 65210
+router-id 10.1.15.2
+group ASWs external
+peer ASWs as-number 65100
+peer ASWs route-update-interval 0
+peer 10.1.16.129 group ASWs
+peer 10.1.16.129 description ASW1.1
+peer 10.1.16.131 group ASWs
+peer 10.1.16.131 description ASW1.1
+peer 10.1.16.133 group ASWs
+peer 10.1.16.133 description ASW3.1
+peer 10.1.16.135 group ASWs
+peer 10.1.16.135 description ASW3.2
+peer 10.1.16.137 group ASWs
+peer 10.1.16.137 description ASW4.1
+peer 10.1.16.139 group ASWs
+peer 10.1.16.139 description ASW4.2
+#
+address-family ipv4 unicast
+default-route imported
+balance 16
+preference 20 200 10
+import-route static med 1000
+network 10.1.15.2 255.255.255.255
+peer ASWs enable
+peer ASWs route-policy AS_Override import
+#
+route-policy AS_Override permit node 10
+apply as-path 65210 replace
+#
+m-lag mad exclude interface M-GigabitEthernet0/0/0
+m-lag role priority 10000
+m-lag system-mac 0001-0001-0002
+m-lag system-number 2
+m-lag system-priority 10000
+m-lag keepalive ip destination 10.1.13.1 source 10.1.13.2 vpn-instance MGMT
+#
+scheduler logfile size 16
+#
+line class console
+authentication-mode password
+user-role network-admin
+set authentication password hash $h$6$CJ9ZIetTWHi2u98c$SENl+4gWsBGrn0nftwBNBooa0sH+zpNB9e5U2YMTPUuo1zliVSXBaaYNDm1bfACBiK9fyE3b2LBF3FZqV3upWw==
+#
+line class vty
+user-role network-operator
+#
+line con 0
+user-role network-admin
+#
+line vty 0 5
+authentication-mode scheme
+user-role network-operator
+protocol inbound ssh
+#
+line vty 6 63
+user-role network-operator
+#
+ip route-static 0.0.0.0 0 10.1.17.22
+ip route-static vpn-instance MGMT 0.0.0.0 0 10.1.13.254 description MGT_routes
+#
+info-center loghost vpn-instance MGMT 10.1.1.1 port 30387
+#
+snmp-agent
+snmp-agent local-engineid 800063A280ACCE927A9A6400000001
+snmp-agent sys-info contact CIS@CECLOUD
+snmp-agent sys-info location GZY-Region2(hlw)-PSW2
+snmp-agent sys-info version v2c v3
+snmp-agent group v3 snmpv3_cecloud privacy read-view ISO notify-view ISO
+snmp-agent mib-view included ISO iso
+snmp-agent usm-user v3 CECloud snmpv3_cecloud cipher authentication-mode sha $c$3$HVSLhTzTNEzeoSFxPGozawi88YiY9jBoi0t4t9DTaFJ7qm/ggZw= privacy-mode aes128 $c$3$9OtZkgWNl7yJbPBf/aBFZloq/Iy3hoHUQ+0hj6Na1qaHhQ==
+#
+ssh server enable
+#
+arp ip-conflict log prompt
+arp user-ip-conflict record enable
+#
+ntp-service enable
+ntp-service unicast-peer 10.1.13.35 vpn-instance MGMT source M-GigabitEthernet0/0/0
+#
+domain system
+#
+domain default enable system
+#
+role name level-0
+description Predefined level-0 role
+#
+role name level-1
+description Predefined level-1 role
+#
+role name level-2
+description Predefined level-2 role
+#
+role name level-3
+description Predefined level-3 role
+#
+role name level-4
+description Predefined level-4 role
+#
+role name level-5
+description Predefined level-5 role
+#
+role name level-6
+description Predefined level-6 role
+#
+role name level-7
+description Predefined level-7 role
+#
+role name level-8
+description Predefined level-8 role
+#
+role name level-9
+description Predefined level-9 role
+#
+role name level-10
+description Predefined level-10 role
+#
+role name level-11
+description Predefined level-11 role
+#
+role name level-12
+description Predefined level-12 role
+#
+role name level-13
+description Predefined level-13 role
+#
+role name level-14
+description Predefined level-14 role
+#
+user-group system
+password-control aging 180
+password-control length 8
+password-control composition type-number 3 type-length 1
+password-control login-attempt 10 exceed lock-time 1
+password-control complexity same-character check
+#
+local-user audituser class manage
+password hash $h$6$u+zk42wjB1AoqBjn$O8LpRxMZTXjuoxr+paoLq0ObfIN+p8JA54uSkmN/crFJEsemIlCrmYqmo8NvLMNLX6XBowN5ebywpXYG5dkp/Q==
+service-type ssh
+authorization-attribute user-role security-audit
+#
+local-user cecloud class manage
+password hash $h$6$HWyKM7eXPnT3Q64J$Sin7EsNo4GpOzSOlS2h3FI+7QHGZ7TRCrDkxDrLC1jpnCX+czd8/V2LTsy+UjK2NMTfwCO2qoznneFPwwDOHJA==
+service-type ssh
+authorization-attribute user-role network-admin
+authorization-attribute user-role network-operator
+#
+local-user operator class manage
+password hash $h$6$sc+FcNFzX2KlZ0sJ$aJoclAtatC1d17kkLVowsXuP6vRaImnFwiBrkKfAkFF6KGa3jIRJ/RRvhNaQ+aKy+hspyTR+7anLQ3dVPX1AgQ==
+service-type ssh
+authorization-attribute user-role network-operator
+#
+security-enhanced level 1
+#
+undo ssl renegotiation disable
+undo ssl version ssl3.0 disable
+undo ssl version tls1.0 disable
+undo ssl version tls1.1 disable
+#
+return
+<GZY-Region2(hlw)-PSW2>
