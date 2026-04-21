@@ -1,0 +1,380 @@
+#
+version 7.1.070, Release 6010P05
+#
+sysname GZY-Region1(zwww)-OASW3
+#
+clock timezone BeiJing add 08:00:00
+clock protocol ntp
+#
+ip vpn-instance mgmt
+route-distinguisher 1000:1
+vpn-target 1000:1 import-extcommunity
+vpn-target 1000:1 export-extcommunity
+#
+irf mac-address persistent always
+irf auto-update enable
+irf auto-merge enable
+undo irf link-delay
+irf member 1 priority 1
+#
+dhcp enable
+#
+lldp global enable
+#
+password-recovery enable
+#
+vlan 1
+#
+vlan 8
+name zwww-server_mgt
+#
+vlan 10
+name zwww-Network_mgt
+#
+stp global enable
+#
+interface Bridge-Aggregation100
+description To-OGSW
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 8 10
+#
+interface NULL0
+#
+interface Vlan-interface8
+description zwww-network_mgt
+ip binding vpn-instance mgmt
+ip address 10.0.13.17 255.255.255.0
+#
+interface GigabitEthernet1/0/1
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/2
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/3
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/4
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/5
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/6
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/7
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/8
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/9
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/10
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/11
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/12
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/13
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/14
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/15
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/16
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/17
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/18
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/19
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/20
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/21
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/22
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/23
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/24
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/25
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/26
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/27
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/28
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/29
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/30
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/31
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/32
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/33
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/34
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/35
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/36
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/37
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/38
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/39
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/40
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/41
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/42
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/43
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/44
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/45
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/46
+port link-mode bridge
+port access vlan 10
+#
+interface GigabitEthernet1/0/47
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 8 10
+port link-aggregation group 100
+#
+interface GigabitEthernet1/0/48
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 8 10
+port link-aggregation group 100
+#
+interface M-GigabitEthernet0/0/0
+#
+interface Ten-GigabitEthernet1/0/49
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/50
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/51
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/52
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/53
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/54
+port link-mode bridge
+#
+scheduler logfile size 16
+#
+line class console
+authentication-mode password
+user-role network-admin
+set authentication password hash $h$6$Gn2tBGqV4/MlCOJY$PZn/X1W1dwDohiAHCQfOb9PUG/HJcAfMZzIVS61baB8e5E52OJQFOSAJ1oi2jM7rHzBrWG3Vuj7fLAKuLeLxaw==
+#
+line class vty
+user-role network-operator
+#
+line con 0
+user-role network-admin
+#
+line vty 0 5
+authentication-mode scheme
+user-role network-operator
+protocol inbound ssh
+#
+line vty 6 63
+user-role network-operator
+#
+ip route-static vpn-instance mgmt 0.0.0.0 0 10.0.13.254 description MGT_routes
+#
+info-center loghost 10.0.1.13 port 31318
+info-center loghost vpn-instance mgmt 10.0.1.13 port 31318
+info-center source default loghost level warning
+#
+snmp-agent
+snmp-agent local-engineid 800063A2806CE2D39151CA00000001
+snmp-agent sys-info contact CIS@CECLOUD
+snmp-agent sys-info location GZY-Region1(zwww)-OASW3
+snmp-agent sys-info version v2c v3
+snmp-agent group v3 snmpv3_cecloud privacy read-view ISO notify-view ISO
+snmp-agent mib-view included ISO iso
+snmp-agent usm-user v3 CECloud snmpv3_cecloud cipher authentication-mode sha $c$3$y7wcx54joI5qoQfOMFIW0MYBgPOjvoIOLr8TArY3jmsvMXbaw3k= privacy-mode aes128 $c$3$ZNPJEmiZPy6t7qKY2ypCtY9uHhMGsETm/j1JM4smiYXnqg==
+#
+ssh server enable
+#
+ntp-service enable
+ntp-service unicast-peer 10.0.13.35 vpn-instance mgmt source M-GigabitEthernet0/0/0
+#
+password-control enable
+#
+domain system
+#
+domain default enable system
+#
+role name level-0
+description Predefined level-0 role
+#
+role name level-1
+description Predefined level-1 role
+#
+role name level-2
+description Predefined level-2 role
+#
+role name level-3
+description Predefined level-3 role
+#
+role name level-4
+description Predefined level-4 role
+#
+role name level-5
+description Predefined level-5 role
+#
+role name level-6
+description Predefined level-6 role
+#
+role name level-7
+description Predefined level-7 role
+#
+role name level-8
+description Predefined level-8 role
+#
+role name level-9
+description Predefined level-9 role
+#
+role name level-10
+description Predefined level-10 role
+#
+role name level-11
+description Predefined level-11 role
+#
+role name level-12
+description Predefined level-12 role
+#
+role name level-13
+description Predefined level-13 role
+#
+role name level-14
+description Predefined level-14 role
+#
+user-group system
+password-control aging 180
+password-control length 8
+password-control composition type-number 3 type-length 1
+password-control login-attempt 10 exceed lock-time 1
+password-control complexity same-character check
+#
+local-user audituser class manage
+service-type ssh
+authorization-attribute user-role security-audit
+#
+local-user cecloud class manage
+service-type ssh
+authorization-attribute user-role network-admin
+authorization-attribute user-role network-operator
+#
+local-user operator class manage
+service-type ssh
+authorization-attribute user-role network-operator
+#
+return
+<GZY-Region1(zwww)-OASW3>

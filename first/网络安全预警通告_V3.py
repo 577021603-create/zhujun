@@ -65,6 +65,13 @@ EMAIL_CONFIG = {
 "1012337382@qq.com",
 "bin.xu@cestc.cn",
 "zhu_jun@cestc.cn",
+"17955608@qq.com",
+"2161795572@qq.ocm",
+"17955608@qq.com",
+"3083524414@qq.com",
+"307498905@qq.com",
+"343798739@qq.com",
+"2161795572@qq.com",
 "lizhonghua@cestc.cn","lijing07@cestc.cn","57140611@qq.com","xuhao@yawei.com.cn"],
 "email_subject_template": "【甘孜云】【威胁通告】关于{}"  # 动态主题
 }
@@ -603,7 +610,7 @@ def batch_extract(urls: List[str], send_email: bool = True):
 # -------------------------- 执行入口 --------------------------
 if __name__ == "__main__":
     TARGET_URLS = [
-        'https://www.secrss.com/articles/86949',
+        'https://www.secrss.com/articles/89213',
         # 可添加更多漏洞网页URL
     ]
     batch_extract(TARGET_URLS, send_email=True)

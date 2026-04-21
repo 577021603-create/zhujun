@@ -1,0 +1,492 @@
+#
+version 7.1.070, Release 8307P10
+#
+sysname GZY-Region1(zwww)-ASW2.2
+#
+clock timezone BeiJing add 08:00:00
+clock protocol ntp
+#
+ip vpn-instance mgmt
+route-distinguisher 1000:1
+vpn-target 1000:1 import-extcommunity
+vpn-target 1000:1 export-extcommunity
+#
+irf mac-address persistent always
+irf auto-update enable
+irf auto-merge enable
+undo irf link-delay
+irf member 1 priority 1
+#
+ospf 1 router-id 10.0.15.12
+silent-interface all
+undo silent-interface Vlan-interface4094
+spf-schedule-interval 10 1000 1000
+bandwidth-reference 100000
+area 0.0.0.0
+network 10.0.15.12 0.0.0.0
+network 169.254.255.254 0.0.0.1
+#
+dhcp enable
+#
+mac-address timer aging 1800
+#
+lldp global enable
+#
+vlan 1
+#
+vlan 88
+name Cloud-Bms
+#
+vlan 89
+name Cloud-Pxe
+#
+vlan 91
+name Cloud-Api
+#
+vlan 92
+name Cloud-Ovn
+#
+vlan 951
+name Cloud-Storage
+#
+vlan 2000
+#
+vlan 4094
+name Ospf-Link
+#
+stp instance 0 root primary
+stp port-log instance 0 to 4094
+stp port-log vlan 1 to 4094
+stp bpdu-protection
+stp global enable
+#
+interface Bridge-Aggregation1
+description To:bms-1-5-32U
+port access vlan 88
+link-aggregation mode dynamic
+port m-lag group 1
+stp edged-port
+#
+interface Bridge-Aggregation2
+description To:bms-B03-36U
+port access vlan 88
+link-aggregation mode dynamic
+port m-lag group 2
+stp edged-port
+#
+interface Bridge-Aggregation3
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 1001 to 2999
+link-aggregation mode dynamic
+port m-lag group 3
+stp edged-port
+#
+interface Bridge-Aggregation4
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 1001 to 2999
+link-aggregation mode dynamic
+port m-lag group 4
+stp edged-port
+#
+interface Bridge-Aggregation64
+description To-ASW-2.2-PeerLink
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 2 to 4094
+port m-lag peer-link 1
+undo mac-address static source-check enable
+#
+interface NULL0
+#
+interface LoopBack0
+ip address 10.0.15.12 255.255.255.255
+#
+interface Vlan-interface88
+description Cloud-Bms
+mtu 9008
+ip address 10.0.6.61 255.255.255.192
+vrrp vrid 88 virtual-ip 10.0.6.62
+dhcp select relay
+dhcp relay server-address 10.0.12.17
+dhcp relay source-address 10.0.6.62
+#
+interface Vlan-interface89
+description Cloud-Pxe
+#
+interface Vlan-interface91
+description Cloud-Api
+#
+interface Vlan-interface92
+description Cloud-Ovn
+#
+interface Vlan-interface951
+description Cloud-Storage
+#
+interface Vlan-interface4094
+description OSPF-PeerLink
+mtu 9008
+ip address 169.254.255.255 255.255.255.254
+ospf network-type p2p
+#
+interface HundredGigE1/0/51
+port link-mode route
+description To-PSW1
+mtu 9008
+ip address 10.0.16.7 255.255.255.254
+#
+interface HundredGigE1/0/52
+port link-mode route
+description To-PSW2
+mtu 9008
+ip address 10.0.16.135 255.255.255.254
+#
+interface HundredGigE1/0/49
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 2 to 4094
+port link-aggregation group 64
+#
+interface HundredGigE1/0/50
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 2 to 4094
+port link-aggregation group 64
+#
+interface HundredGigE1/0/53
+port link-mode bridge
+#
+interface HundredGigE1/0/54
+port link-mode bridge
+#
+interface HundredGigE1/0/55
+port link-mode bridge
+#
+interface HundredGigE1/0/56
+port link-mode bridge
+#
+interface M-GigabitEthernet0/0/0
+ip binding vpn-instance mgmt
+ip address 10.0.13.12 255.255.255.0
+#
+interface Ten-GigabitEthernet1/0/1
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/2
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/3
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/4
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/5
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/6
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/7
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/8
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/9
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/10
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/11
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/12
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/13
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/14
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/15
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/16
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/17
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/18
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/19
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/20
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/21
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/22
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/23
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/24
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/25
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/26
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/27
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/28
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/29
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/30
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/31
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/32
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/33
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/34
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/35
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/36
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/37
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/38
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/39
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/40
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/41
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/42
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/43
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/44
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/45
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/46
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/47
+port link-mode bridge
+#
+interface Ten-GigabitEthernet1/0/48
+port link-mode bridge
+#
+bgp 65100
+router-id 10.0.15.12
+group ASW-2.1 internal
+peer ASW-2.1 connect-interface LoopBack0
+peer ASW-2.1 route-update-interval 0
+group PSW-1 external
+peer PSW-1 as-number 65200
+peer PSW-1 route-update-interval 0
+group PSW-2 external
+peer PSW-2 as-number 65200
+peer PSW-2 route-update-interval 0
+peer 10.0.15.11 group ASW-2.1
+peer 10.0.16.6 group PSW-1
+peer 10.0.16.134 group PSW-2
+peer 10.1.16.6 as-number 65200
+peer 10.1.16.6 route-update-interval 0
+peer 10.1.16.134 as-number 65200
+peer 10.1.16.134 route-update-interval 0
+#
+address-family ipv4 unicast
+balance 16
+preference 20 200 10
+network 10.0.6.0 255.255.255.192
+peer ASW-2.1 enable
+peer PSW-1 enable
+peer PSW-2 enable
+#
+m-lag mad exclude interface M-GigabitEthernet0/0/0
+m-lag mad exclude interface Vlan-interface88
+m-lag mad exclude interface Vlan-interface89
+m-lag mad exclude interface Vlan-interface91
+m-lag mad exclude interface Vlan-interface92
+m-lag mad exclude interface Vlan-interface951
+m-lag mad exclude interface Vlan-interface4094
+m-lag role priority 40000
+m-lag system-mac 000b-000b-000b
+m-lag system-number 2
+m-lag system-priority 10000
+m-lag standalone enable
+m-lag keepalive ip destination 10.0.13.11 source 10.0.13.12 vpn-instance mgmt
+#
+scheduler logfile size 16
+#
+line class console
+authentication-mode password
+user-role network-admin
+set authentication password hash $h$6$HKiIkQvqZ7gX8s/W$AVKPmhzEGzi32ROhvwfUD68MCa5Ky2Rpe1CT6Yxnskwr/ewB2lZEpGPFjgNjm+w+nzVG7uKZMessAhqhD0CK1g==
+#
+line class vty
+user-role network-operator
+#
+line con 0
+user-role network-admin
+#
+line vty 0 5
+authentication-mode scheme
+user-role network-operator
+protocol inbound ssh
+#
+line vty 6 63
+user-role network-operator
+#
+ip route-static vpn-instance mgmt 0.0.0.0 0 10.0.13.254 description MGT_routes
+#
+info-center loghost 10.0.1.13 port 31318
+info-center loghost vpn-instance mgmt 10.0.1.13 port 31318
+info-center source default loghost level warning
+#
+snmp-agent
+snmp-agent local-engineid 800063A280ACCE927C31C800000001
+snmp-agent sys-info contact CIS@CECLOUD
+snmp-agent sys-info location GZY-Region1(zwww)-ASW2.2
+snmp-agent sys-info version v2c v3
+snmp-agent group v3 snmpv3_cecloud privacy read-view ISO notify-view ISO
+snmp-agent mib-view included ISO iso
+snmp-agent usm-user v3 CECloud snmpv3_cecloud cipher authentication-mode sha $c$3$z2sWFlzg0xhTckI1HfFQmHsq16hFutvjmqFt65Aip/Y9gBWddfM= privacy-mode aes128 $c$3$eR/keiOxd7wRyaNu9PvmorrWhHUT2Es8n8IVVIblyI52MQ==
+#
+ssh server enable
+ssh user netconfuser service-type netconf authentication-type password
+#
+arp ip-conflict log prompt
+arp user-ip-conflict record enable
+#
+ntp-service enable
+ntp-service unicast-peer 10.0.13.35 vpn-instance mgmt source M-GigabitEthernet0/0/0
+#
+password-control enable
+#
+domain system
+#
+domain default enable system
+#
+role name level-0
+description Predefined level-0 role
+#
+role name level-1
+description Predefined level-1 role
+#
+role name level-2
+description Predefined level-2 role
+#
+role name level-3
+description Predefined level-3 role
+#
+role name level-4
+description Predefined level-4 role
+#
+role name level-5
+description Predefined level-5 role
+#
+role name level-6
+description Predefined level-6 role
+#
+role name level-7
+description Predefined level-7 role
+#
+role name level-8
+description Predefined level-8 role
+#
+role name level-9
+description Predefined level-9 role
+#
+role name level-10
+description Predefined level-10 role
+#
+role name level-11
+description Predefined level-11 role
+#
+role name level-12
+description Predefined level-12 role
+#
+role name level-13
+description Predefined level-13 role
+#
+role name level-14
+description Predefined level-14 role
+#
+user-group system
+password-control aging 180
+password-control length 8
+password-control composition type-number 3 type-length 1
+password-control login-attempt 10 exceed lock-time 1
+password-control complexity same-character check
+#
+local-user audituser class manage
+service-type ssh
+authorization-attribute user-role security-audit
+#
+local-user cecloud class manage
+service-type ssh
+authorization-attribute user-role network-admin
+authorization-attribute user-role network-operator
+#
+local-user netconfuser class manage
+service-type ssh
+authorization-attribute user-role level-15
+authorization-attribute user-role network-admin
+authorization-attribute user-role network-operator
+#
+local-user operator class manage
+service-type ssh
+authorization-attribute user-role network-operator
+#
+security-enhanced level 1
+#
+undo ssl renegotiation disable
+undo ssl version ssl3.0 disable
+undo ssl version tls1.0 disable
+undo ssl version tls1.1 disable
+#
+netconf ssh server enable
+#
+return
+<GZY-Region1(zwww)-ASW2.2>

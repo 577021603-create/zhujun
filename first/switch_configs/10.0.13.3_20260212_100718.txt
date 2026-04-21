@@ -1,0 +1,1173 @@
+#
+version 7.1.070, Release 8307P10
+#
+sysname GZY-Region1(zwww)-ISW1.1
+#
+clock timezone BeiJing add 08:00:00
+clock protocol ntp
+#
+ip vpn-instance mgmt
+route-distinguisher 1000:1
+vpn-target 1000:1 import-extcommunity
+vpn-target 1000:1 export-extcommunity
+#
+irf mac-address persistent always
+irf auto-update enable
+irf auto-merge enable
+undo irf link-delay
+irf member 1 priority 1
+#
+track 1 nqa entry vlan909 csg1 reaction 1
+#
+track 2 nqa entry vlan909 csg2 reaction 1
+#
+ospf 1 router-id 10.0.15.3
+silent-interface all
+undo silent-interface Vlan-interface4094
+spf-schedule-interval 10 1000 1000
+bandwidth-reference 100000
+area 0.0.0.0
+network 10.0.15.3 0.0.0.0
+network 169.254.255.254 0.0.0.1
+#
+ospfv3 1
+router-id 10.0.15.3
+spf-schedule-interval 10 1000 1000
+bandwidth-reference 100000
+silent-interface all
+undo silent-interface Vlan-interface4094
+area 0.0.0.0
+#
+ip unreachables enable
+ip ttl-expires enable
+#
+mac-address timer aging 1800
+#
+mirroring-group 1 local
+#
+lldp global enable
+#
+vlan 1
+#
+vlan 100
+name Cloud-External-RA
+#
+vlan 905
+name Cloud-EFS-External
+#
+vlan 907
+name Cloud-Backup-Internal
+#
+vlan 908
+name Cloud-Backup-External
+#
+vlan 909
+name Cloud-OSS-External
+#
+vlan 1001 to 1020
+#
+vlan 2999
+description dmz-vpc
+#
+vlan 4000
+#
+vlan 4001
+description To-FW
+#
+vlan 4002
+description To-后置机
+#
+vlan 4003 to 4009
+#
+vlan 4010
+description To_CCypher_yunfuwuqimimaji_guanli
+#
+vlan 4094
+name Ospf-Link
+#
+stp instance 0 root primary
+stp port-log instance 0 to 4094
+stp port-log vlan 1 to 4094
+stp bpdu-protection
+stp global enable
+#
+nqa entry vlan909 csg1
+type icmp-echo
+destination ip 10.0.7.1
+frequency 5000
+history-record enable
+history-record number 10
+probe count 10
+probe timeout 2000
+reaction 1 checked-element probe-fail threshold-type consecutive 1 action-type trigger-only
+source interface Vlan-interface909
+#
+nqa entry vlan909 csg2
+type icmp-echo
+destination ip 10.0.7.2
+frequency 5000
+history-record enable
+history-record number 10
+probe count 10
+probe timeout 2000
+reaction 1 checked-element probe-fail threshold-type consecutive 1 action-type trigger-only
+source interface Vlan-interface909
+#
+nqa schedule vlan909 csg1 start-time now lifetime forever
+nqa schedule vlan909 csg2 start-time now lifetime forever
+#
+interface Bridge-Aggregation1
+description To-Gateway01
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 100 1001 to 1020 2999
+link-aggregation mode dynamic
+lacp edge-port
+port m-lag group 1
+stp edged-port
+#
+interface Bridge-Aggregation2
+description To-Gateway02
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 100 1001 to 1020 2999
+link-aggregation mode dynamic
+lacp edge-port
+port m-lag group 2
+stp edged-port
+#
+interface Bridge-Aggregation3
+description To-CSG1
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 909
+port trunk pvid vlan 909
+link-aggregation mode dynamic
+lacp edge-port
+port m-lag group 3
+stp edged-port
+#
+interface Bridge-Aggregation4
+description To-CSG2
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 909
+port trunk pvid vlan 909
+link-aggregation mode dynamic
+lacp edge-port
+port m-lag group 4
+stp edged-port
+#
+interface Bridge-Aggregation5
+description To-Backup01
+port access vlan 907
+link-aggregation mode dynamic
+lacp edge-port
+port m-lag group 5
+stp edged-port
+#
+interface Bridge-Aggregation6
+description To-Backup02
+port access vlan 908
+link-aggregation mode dynamic
+lacp edge-port
+port m-lag group 6
+stp edged-port
+#
+interface Bridge-Aggregation7
+description to_CSW_trunk_port
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 1001 to 2999 4009
+link-aggregation mode dynamic
+port m-lag group 7
+#
+interface Bridge-Aggregation8
+description To-Backup03-LZ
+port access vlan 907
+link-aggregation mode dynamic
+port m-lag group 8
+#
+interface Bridge-Aggregation10
+description To-OSS-Node5
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 905
+port trunk pvid vlan 905
+link-aggregation mode dynamic
+lacp edge-port
+port m-lag group 10
+stp edged-port
+#
+interface Bridge-Aggregation11
+description To-OSS-Node6
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 905
+port trunk pvid vlan 905
+link-aggregation mode dynamic
+lacp edge-port
+port m-lag group 11
+stp edged-port
+#
+interface Bridge-Aggregation12
+description To-OSS-Node7
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 905
+port trunk pvid vlan 905
+link-aggregation mode dynamic
+lacp edge-port
+port m-lag group 12
+stp edged-port
+#
+interface Bridge-Aggregation13
+description To-EFS01
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 905
+port trunk pvid vlan 905
+link-aggregation mode dynamic
+lacp edge-port
+port m-lag group 13
+stp edged-port
+#
+interface Bridge-Aggregation14
+description To-EFS02
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 905
+port trunk pvid vlan 905
+link-aggregation mode dynamic
+lacp edge-port
+port m-lag group 14
+stp edged-port
+#
+interface Bridge-Aggregation15
+description To-EFS03
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 905
+port trunk pvid vlan 905
+link-aggregation mode dynamic
+lacp edge-port
+port m-lag group 15
+stp edged-port
+#
+interface Bridge-Aggregation16
+description To-EFS04
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 905
+port trunk pvid vlan 905
+link-aggregation mode dynamic
+lacp edge-port
+port m-lag group 16
+stp edged-port
+#
+interface Bridge-Aggregation26
+description To-后置机
+port access vlan 4002
+port m-lag group 26
+#
+interface Bridge-Aggregation33
+description To-独立csoc1-1-6-8U-zwww-101-gzy-region1
+port access vlan 4000
+link-aggregation mode dynamic
+port m-lag group 33
+#
+interface Bridge-Aggregation34
+description 独立csoc2-1-6-11U-zwww-101-gzy-region1
+port access vlan 4000
+link-aggregation mode dynamic
+port m-lag group 34
+#
+interface Bridge-Aggregation35
+description 独立csoc3-1-6-14U-zwww-101-gzy-region1
+port access vlan 4000
+link-aggregation mode dynamic
+port m-lag group 35
+#
+interface Bridge-Aggregation43
+description To_CCypher_yunfuwuqimimaji
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 4007
+port trunk pvid vlan 4007
+link-aggregation mode dynamic
+port m-lag group 43
+#
+interface Bridge-Aggregation44
+description To_SSL_anquanwangguan
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 4008
+port trunk pvid vlan 4008
+link-aggregation mode dynamic
+port m-lag group 44
+#
+interface Bridge-Aggregation45
+description To_DS_yewu_CE6885
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 4005
+port trunk pvid vlan 4005
+link-aggregation mode dynamic
+port m-lag group 45
+#
+interface Bridge-Aggregation47
+description To-FW
+port access vlan 4001
+port m-lag group 47
+mirroring-group 1 mirroring-port both
+#
+interface Bridge-Aggregation48
+description To-FW
+port access vlan 4001
+port m-lag group 48
+mirroring-group 1 mirroring-port both
+#
+interface Bridge-Aggregation64
+description To-ISW-1.2-PeerLink
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 2 to 4094
+port m-lag peer-link 1
+undo mac-address static source-check enable
+#
+interface NULL0
+#
+interface LoopBack0
+description RouteID
+ip address 10.0.15.3 255.255.255.255
+ospfv3 1 area 0.0.0.0
+ipv6 address FC10:0:15::3/128
+#
+interface LoopBack99
+#
+interface Vlan-interface100
+description Cloud-External-RA
+mtu 9008
+ip address 10.0.5.60 255.255.255.192
+vrrp vrid 100 virtual-ip 10.0.5.62
+vrrp vrid 100 priority 120
+ipv6 address FE80::60 link-local
+ipv6 address FC10:0:5::60/64
+vrrp ipv6 vrid 100 virtual-ip FE80::62 link-local
+vrrp ipv6 vrid 100 virtual-ip FC10:0:5::62
+vrrp ipv6 vrid 100 virtual-ip FC10:0:5::254
+vrrp ipv6 vrid 100 priority 120
+#
+interface Vlan-interface905
+description Cloud-EFS-External
+mtu 9008
+ip address 10.0.22.252 255.255.255.192
+vrrp vrid 105 virtual-ip 10.0.22.254
+vrrp vrid 105 priority 120
+#
+interface Vlan-interface907
+description Cloud-Backup-Internal
+mtu 9008
+ip address 10.0.23.252 255.255.255.0
+vrrp vrid 107 virtual-ip 10.0.23.254
+vrrp vrid 107 priority 120
+#
+interface Vlan-interface908
+description Cloud-Backup-External
+mtu 9008
+ip address 10.0.24.252 255.255.255.0
+vrrp vrid 108 virtual-ip 10.0.24.254
+vrrp vrid 108 priority 120
+#
+interface Vlan-interface909
+description Cloud-OSS-External
+mtu 9008
+ip address 10.0.7.60 255.255.255.192
+vrrp vrid 109 virtual-ip 10.0.7.62
+vrrp vrid 109 priority 120
+#
+interface Vlan-interface2999
+ip address 169.254.240.4 255.255.255.248
+vrrp vrid 129 virtual-ip 169.254.240.6
+#
+interface Vlan-interface4000
+description To-CSOC
+mtu 10240
+ip address 10.0.25.60 255.255.255.192
+vrrp vrid 240 virtual-ip 10.0.25.62
+vrrp vrid 240 priority 120
+#
+interface Vlan-interface4001
+description To-FW
+mtu 10240
+ip address 10.0.17.2 255.255.255.248
+vrrp vrid 241 virtual-ip 10.0.17.1
+vrrp vrid 241 priority 120
+#
+interface Vlan-interface4002
+description To-后置机
+ip address 10.0.17.10 255.255.255.248
+vrrp vrid 242 virtual-ip 10.0.17.9
+vrrp vrid 242 priority 120
+#
+interface Vlan-interface4003
+description To-TGSW
+ip address 59.213.205.209 255.255.255.240
+vrrp vrid 243 virtual-ip 59.213.205.222
+vrrp vrid 243 priority 120
+#
+interface Vlan-interface4004
+#
+interface Vlan-interface4005
+description To_DS_yewu_CE6885
+ip address 100.64.2.4 255.255.255.248
+vrrp vrid 245 virtual-ip 100.64.2.6
+vrrp vrid 245 priority 120
+#
+interface Vlan-interface4006
+ip address 100.64.2.9 255.255.255.248
+ospf 1 area 0.0.0.0
+#
+interface Vlan-interface4007
+description To_CCypher_yunfuwuqimimaji
+ip address 168.0.51.2 255.255.255.0
+vrrp vrid 247 virtual-ip 168.0.51.1
+vrrp vrid 247 priority 120
+#
+interface Vlan-interface4008
+description To_SSL_anquanwangguan
+ip address 168.0.52.2 255.255.255.0
+vrrp vrid 248 virtual-ip 168.0.52.1
+vrrp vrid 248 priority 120
+#
+interface Vlan-interface4009
+description To_zhouweijianwei_yidong
+ip address 100.64.2.18 255.255.255.248
+vrrp vrid 249 virtual-ip 100.64.2.17
+vrrp vrid 249 priority 120
+#
+interface Vlan-interface4010
+description To_CCypher_yunfuwuqimimaji_guanli
+ip address 100.64.2.25 255.255.255.248
+ospf 1 area 0.0.0.0
+#
+interface Vlan-interface4094
+description OSPF-PeerLink
+mtu 9008
+ip address 169.254.255.254 255.255.255.254
+ospf network-type p2p
+ospfv3 1 area 0.0.0.0
+ospfv3 network-type p2p
+ipv6 address FE80:255::254 link-local
+#
+interface HundredGigE1/0/49
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 2 to 4094
+port link-aggregation group 64
+#
+interface HundredGigE1/0/50
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 2 to 4094
+port link-aggregation group 64
+#
+interface HundredGigE1/0/51
+port link-mode bridge
+#
+interface HundredGigE1/0/52
+port link-mode bridge
+#
+interface HundredGigE1/0/53
+port link-mode bridge
+#
+interface HundredGigE1/0/54
+port link-mode bridge
+#
+interface HundredGigE1/0/55
+port link-mode bridge
+#
+interface HundredGigE1/0/56
+port link-mode bridge
+#
+interface M-GigabitEthernet0/0/0
+description Out-of-band management
+ip binding vpn-instance mgmt
+ip address 10.0.13.3 255.255.255.0
+#
+interface Ten-GigabitEthernet1/0/1
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 100 1001 to 1020 2999
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 1
+#
+interface Ten-GigabitEthernet1/0/2
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 100 1001 to 1020 2999
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 2
+#
+interface Ten-GigabitEthernet1/0/3
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 909
+port trunk pvid vlan 909
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 3
+#
+interface Ten-GigabitEthernet1/0/4
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 909
+port trunk pvid vlan 909
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 4
+#
+interface Ten-GigabitEthernet1/0/5
+port link-mode bridge
+port access vlan 907
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 5
+#
+interface Ten-GigabitEthernet1/0/6
+port link-mode bridge
+port access vlan 908
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 6
+#
+interface Ten-GigabitEthernet1/0/7
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 1001 to 2999 4009
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 7
+#
+interface Ten-GigabitEthernet1/0/8
+port link-mode bridge
+description To-Backup03-LZ
+port access vlan 907
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 8
+#
+interface Ten-GigabitEthernet1/0/9
+port link-mode bridge
+port link-type trunk
+port trunk permit vlan 1 4003 to 4004
+port trunk pvid vlan 4003
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/10
+port link-mode bridge
+description To-OSS-Node5
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 905
+port trunk pvid vlan 905
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 10
+#
+interface Ten-GigabitEthernet1/0/11
+port link-mode bridge
+description To-OSS-Node6
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 905
+port trunk pvid vlan 905
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 11
+#
+interface Ten-GigabitEthernet1/0/12
+port link-mode bridge
+description To-OSS-Node7
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 905
+port trunk pvid vlan 905
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 12
+#
+interface Ten-GigabitEthernet1/0/13
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 905
+port trunk pvid vlan 905
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 13
+#
+interface Ten-GigabitEthernet1/0/14
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 905
+port trunk pvid vlan 905
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 14
+#
+interface Ten-GigabitEthernet1/0/15
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 905
+port trunk pvid vlan 905
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 15
+#
+interface Ten-GigabitEthernet1/0/16
+port link-mode bridge
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 905
+port trunk pvid vlan 905
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 16
+#
+interface Ten-GigabitEthernet1/0/17
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/18
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/19
+port link-mode bridge
+description to_bangongshi_luyouqi
+port access vlan 100
+speed 1000
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/20
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/21
+port link-mode bridge
+port access vlan 100
+speed 1000
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/22
+port link-mode bridge
+description To-T4luojinshu_test
+port access vlan 4006
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/23
+port link-mode bridge
+description To-gpucompute1-arm-3202u-damoxing_test
+port access vlan 4006
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/24
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/25
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+undo stp enable
+mirroring-group 1 monitor-port
+#
+interface Ten-GigabitEthernet1/0/26
+port link-mode bridge
+port access vlan 4002
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/27
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/28
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/29
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/30
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/31
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/32
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/33
+port link-mode bridge
+port access vlan 4000
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 33
+#
+interface Ten-GigabitEthernet1/0/34
+port link-mode bridge
+port access vlan 4000
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 34
+#
+interface Ten-GigabitEthernet1/0/35
+port link-mode bridge
+port access vlan 4000
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 35
+#
+interface Ten-GigabitEthernet1/0/36
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/37
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/38
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/39
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/40
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/41
+port link-mode bridge
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/42
+port link-mode bridge
+description To_CCypher_yunfuwuqimimaji_T5
+port access vlan 4010
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+#
+interface Ten-GigabitEthernet1/0/43
+port link-mode bridge
+description To_CCypher_yunfuwuqimimaji_T3
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 4007
+port trunk pvid vlan 4007
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 43
+#
+interface Ten-GigabitEthernet1/0/44
+port link-mode bridge
+description To_SSL_anquanwangguan_1T
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 4008
+port trunk pvid vlan 4008
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 44
+#
+interface Ten-GigabitEthernet1/0/45
+port link-mode bridge
+description To_DS_yewu_CE6885_A-XGE1/0/25
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 4005
+port trunk pvid vlan 4005
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 45
+#
+interface Ten-GigabitEthernet1/0/46
+port link-mode bridge
+description To_DS_yewu_CE6885_B-XGE1/0/25
+port link-type trunk
+undo port trunk permit vlan 1
+port trunk permit vlan 4005
+port trunk pvid vlan 4005
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 45
+#
+interface Ten-GigabitEthernet1/0/47
+port link-mode bridge
+description To-FW
+port access vlan 4001
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 47
+#
+interface Ten-GigabitEthernet1/0/48
+port link-mode bridge
+description To-FW
+port access vlan 4001
+broadcast-suppression pps 30000
+multicast-suppression pps 30000
+unicast-suppression pps 30000
+port link-aggregation group 48
+#
+bgp 65300
+router-id 10.0.15.3
+group ISW-1.2 internal
+peer ISW-1.2 connect-interface LoopBack0
+peer ISW-1.2 route-update-interval 0
+group RA external
+peer RA as-number 65301
+peer RA description RA-EDGE
+peer RA route-update-interval 0
+group RAv6 external
+peer RAv6 as-number 65301
+peer RAv6 description RAv6-EDGE
+peer RAv6 route-update-interval 0
+peer 10.0.15.4 group ISW-1.2
+peer FC10:0:15::4 group ISW-1.2
+peer 10.0.5.0 24 group RA
+peer FC10:0:5:: 64 group RAv6
+#
+address-family ipv4 unicast
+default-route imported
+balance 16
+preference 20 200 10
+import-route static route-policy InjectRoute-BGPv4
+network 10.0.5.0 255.255.255.0
+network 10.0.25.0 255.255.255.192
+peer ISW-1.2 enable
+peer ISW-1.2 next-hop-local
+peer RA enable
+peer RA route-policy ImportRoutes-BGPv4 import
+peer RA route-policy DenyExportRoute-RA export
+#
+address-family ipv6 unicast
+default-route imported
+balance 16
+preference 20 200 10
+import-route static route-policy InjectRoute-BGPv6
+network FC10:0:5:: 64
+peer ISW-1.2 enable
+peer ISW-1.2 next-hop-local
+peer RAv6 enable
+peer RAv6 route-policy ImportRoutes-BGPv6 import
+peer RAv6 route-policy DenyExportRoute-RA export
+#
+route-policy DenyExportRoute-RA deny node 60000
+#
+route-policy ImportRoutes-BGPv4 permit node 10
+if-match ip address prefix-list EIP-V4
+#
+route-policy ImportRoutes-BGPv4 permit node 20
+if-match ip address prefix-list Direct-VPC
+#
+route-policy ImportRoutes-BGPv6 permit node 10
+if-match ipv6 address prefix-list IP-V6
+#
+route-policy InjectRoute-BGPv4 permit node 10
+if-match ip address prefix-list DefaultRoute-V4
+#
+route-policy InjectRoute-BGPv4 permit node 20
+if-match ip address prefix-list CsgRoute
+#
+route-policy InjectRoute-BGPv6 permit node 10
+if-match ipv6 address prefix-list DefaultRoute-V6
+#
+ip prefix-list CsgRoute index 10 permit 10.0.15.253 32
+ip prefix-list CsgRoute index 20 permit 10.0.15.254 32
+ip prefix-list DefaultRoute-V4 index 10 permit 0.0.0.0 0
+ip prefix-list Direct-VPC index 10 permit 10.0.28.0 24
+ip prefix-list EIP-V4 index 10 permit 10.0.8.0 23
+ip prefix-list EIP-V4 index 20 permit 10.0.10.0 23
+ip prefix-list EIP-V4 index 30 permit 10.0.26.0 23
+ip prefix-list EIP-V4 index 40 permit 168.0.16.0 23
+ip prefix-list EIP-V4 index 50 permit 59.213.205.96 28
+ip prefix-list EIP-V4 index 60 permit 11.11.4.0 24
+ip prefix-list EIP-V4 index 70 permit 10.238.4.0 24
+ip prefix-list EIP-V4 index 80 permit 192.168.81.0 24
+ip prefix-list EIP-V4 index 90 permit 192.168.103.0 24
+ip prefix-list EIP-V4 index 100 permit 10.237.0.0 24
+#
+ipv6 prefix-list DefaultRoute-V6 index 10 permit :: 0
+#
+m-lag mad exclude interface M-GigabitEthernet0/0/0
+m-lag mad exclude interface Vlan-interface100
+m-lag mad exclude interface Vlan-interface907
+m-lag mad exclude interface Vlan-interface908
+m-lag mad exclude interface Vlan-interface909
+m-lag mad exclude interface Vlan-interface4003
+m-lag mad exclude interface Vlan-interface4094
+m-lag role priority 10000
+m-lag system-mac 0003-0003-0003
+m-lag system-number 1
+m-lag system-priority 10000
+m-lag standalone enable
+m-lag keepalive ip destination 10.0.13.4 source 10.0.13.3 vpn-instance mgmt
+#
+scheduler logfile size 16
+#
+line class console
+authentication-mode password
+user-role network-admin
+set authentication password hash $h$6$r9Isy2aOzhll+JTx$lWc26ZIZ3Q/dDCxKKdyCS7SAqxxUEIyAeHwbV7F72156l5TXCvH5ZHx7g6ni+NcVN1qNFYacv69RRZ0DCpMfKg==
+#
+line class vty
+user-role network-operator
+#
+line con 0
+user-role network-admin
+#
+line vty 0 5
+authentication-mode scheme
+user-role network-operator
+protocol inbound ssh
+#
+line vty 6 63
+user-role network-operator
+#
+ip route-static 0.0.0.0 0 10.0.17.6
+ip route-static 10.0.1.0 26 10.0.17.6
+ip route-static 10.0.13.0 24 10.0.17.6
+ip route-static 10.0.15.253 32 Vlan-interface909 10.0.7.1 track 1 description To-Csg1(externalSVC)
+ip route-static 10.0.15.253 32 Vlan-interface909 10.0.7.2 track 2 description To-Csg2(externalSVC)
+ip route-static 10.0.15.254 32 Vlan-interface909 10.0.7.1 track 1 description To-Csg1(internalSVC)
+ip route-static 10.0.15.254 32 Vlan-interface909 10.0.7.2 track 2 description To-Csg2(internalSVC)
+ip route-static 10.1.13.0 24 10.0.17.6
+ip route-static 10.1.26.0 23 10.0.17.14
+ip route-static 10.212.0.0 24 100.64.2.22 description to_yiyuan_wangduan
+ip route-static 10.237.0.21 32 100.64.2.22 description to_LaoPacs_XinIP
+ip route-static 10.237.0.22 32 100.64.2.22 description to_YuanNeiQianZhiJi
+ip route-static 10.237.0.34 32 100.64.2.22 description to_wjw_HIS
+ip route-static 10.237.0.41 32 100.64.2.22 description to_JiuLongXianPacs
+ip route-static 10.238.4.1 32 100.64.2.22 description to_yidongyunwangguan
+ip route-static 10.238.4.6 32 100.64.2.22 description to_yidong
+ip route-static 10.238.4.16 32 100.64.2.22 description to_yidong
+ip route-static 10.238.4.17 32 100.64.2.22 description to_yidong
+ip route-static 10.238.4.18 32 100.64.2.22 description to_yidong
+ip route-static 10.238.4.33 32 100.64.2.22 description to_eryiyuan
+ip route-static 10.238.4.34 32 100.64.2.22 description to_eryiyuan
+ip route-static 10.238.4.50 32 100.64.2.22 description to_dianzipiaoju
+ip route-static 10.238.4.51 32 100.64.2.22 description to_dianzipiaoju
+ip route-static 10.238.4.66 32 100.64.2.22 description to_PacsBaoGaoFuWuQi
+ip route-static 10.238.4.67 32 100.64.2.22 description to_YunDuanpacs
+ip route-static 10.238.4.68 32 100.64.2.22 description to_pacs
+ip route-static 10.238.4.79 32 100.64.2.22 description to_WeiXiaoHisLao_IP
+ip route-static 10.238.4.81 32 100.64.2.22 description to_piFangYuan
+ip route-static 10.238.4.88 32 100.64.2.22 description to_ZhouPacsFuWuQi
+ip route-static 10.238.4.95 32 100.64.2.22 description to_chuanranbingqianzhiyujing
+ip route-static 10.238.4.96 32 100.64.2.22 description to_YingXiangJiaoHuanPingTai1
+ip route-static 10.238.4.97 32 100.64.2.22 description to_YingXiangJiaoHuanPingTai2
+ip route-static 10.238.4.98 32 100.64.2.22 description to_YingXiangJiaoHuanPingTai3
+ip route-static 11.6.226.2 32 100.64.2.22 description to_zhongdianrenqun
+ip route-static 59.213.205.224 28 59.213.205.210
+ip route-static 60.255.195.128 28 10.0.17.14
+ip route-static 100.64.1.0 26 100.64.2.1
+ip route-static 100.100.0.0 16 100.64.2.22 description to_jiwei_ipsec_vpn
+ip route-static 118.124.74.64 29 10.0.17.14
+ip route-static 162.1.0.0 16 100.64.2.22 description to_jiwei_ipsec_vpn
+ip route-static 172.1.0.0 16 100.64.2.22 description to_jiwei_ipsec_vpn
+ip route-static 172.19.0.0 16 100.64.2.22 description to_jiwei_ipsec_vpn
+ip route-static 172.20.0.0 16 100.64.2.22 description to_yiduan_dianxin_weishengzhuanxian
+ip route-static 192.8.7.0 24 100.64.2.22 description to_yiyuan_wangduan
+ip route-static 192.168.10.196 32 100.64.2.22 description to_FuYouBaoJianYuan_YuanNeiQianZhiJi
+ip route-static 192.168.13.0 24 10.0.17.14
+ip route-static 192.168.60.0 24 100.64.2.22 description to_helihuayongyao
+ip route-static 200.47.254.0 24 169.254.240.1 description to_DMZ-vpc
+ip route-static vpn-instance mgmt 0.0.0.0 0 10.0.13.254 description MGT_routes
+#
+info-center loghost 10.0.1.13 port 31318
+info-center loghost vpn-instance mgmt 10.0.1.13 port 31318
+info-center source default loghost level warning
+#
+snmp-agent
+snmp-agent local-engineid 800063A280ACCE927C590800000001
+snmp-agent sys-info contact CIS@CECLOUD
+snmp-agent sys-info location GZY-Region1(zwww)-ISW1.1
+snmp-agent sys-info version v2c v3
+snmp-agent group v3 snmpv3_cecloud privacy read-view ISO notify-view ISO
+snmp-agent mib-view included ISO iso
+snmp-agent usm-user v3 CECloud snmpv3_cecloud cipher authentication-mode sha $c$3$F5m+za9kb+O745qQEb+zClnCpbNpowJYswYFBwWI5GkewH4C6oo= privacy-mode aes128 $c$3$Isc/J/io+HFlf+k6uJfqMuJna+U+1zHk+25iTT4EY3WyjQ==
+#
+ssh server enable
+#
+arp ip-conflict log prompt
+arp user-ip-conflict record enable
+#
+ntp-service enable
+ntp-service unicast-peer 10.0.13.35 vpn-instance mgmt source M-GigabitEthernet0/0/0
+#
+password-control enable
+#
+domain system
+#
+domain default enable system
+#
+role name level-0
+description Predefined level-0 role
+#
+role name level-1
+description Predefined level-1 role
+#
+role name level-2
+description Predefined level-2 role
+#
+role name level-3
+description Predefined level-3 role
+#
+role name level-4
+description Predefined level-4 role
+#
+role name level-5
+description Predefined level-5 role
+#
+role name level-6
+description Predefined level-6 role
+#
+role name level-7
+description Predefined level-7 role
+#
+role name level-8
+description Predefined level-8 role
+#
+role name level-9
+description Predefined level-9 role
+#
+role name level-10
+description Predefined level-10 role
+#
+role name level-11
+description Predefined level-11 role
+#
+role name level-12
+description Predefined level-12 role
+#
+role name level-13
+description Predefined level-13 role
+#
+role name level-14
+description Predefined level-14 role
+#
+user-group system
+password-control aging 180
+password-control length 8
+password-control composition type-number 3 type-length 1
+password-control login-attempt 10 exceed lock-time 1
+password-control complexity same-character check
+#
+local-user audituser class manage
+service-type ssh
+authorization-attribute user-role security-audit
+#
+local-user cecloud class manage
+service-type ssh
+authorization-attribute user-role network-admin
+authorization-attribute user-role network-operator
+#
+local-user operator class manage
+service-type ssh
+authorization-attribute user-role network-operator
+#
+security-enhanced level 1
+#
+undo ssl renegotiation disable
+undo ssl version ssl3.0 disable
+undo ssl version tls1.0 disable
+undo ssl version tls1.1 disable
+#
+return
+<GZY-Region1(zwww)-ISW1.1>

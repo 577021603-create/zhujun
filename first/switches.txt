@@ -35,5 +35,5 @@ cecloud	10.0.13.41	22	 H3C	  j<uSf91gk@2g
 cecloud	10.0.13.43	22	 H3C	  j<uSf91gk@2g
 cecloud	10.0.13.44	22	 H3C	  j<uSf91gk@2g
 cecloud	10.0.13.45	22	 H3C	  j<uSf91gk@2g
-cecloud	10.0.13.46	22	 H3C	  j<uSf91gk@2g
-cecloud	10.0.13.47	22	 H3C	  j<uSf91gk@2g
+cecloud	10.0.13.46	22	 H3C	  Cestc@20260117
+cecloud	10.0.13.47	22	 H3C	  Cestc@20260117

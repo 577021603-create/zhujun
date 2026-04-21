@@ -18,8 +18,7 @@ EMAIL_CONFIG = {
     "smtp_port": 465,  # SSL加密端口
     "sender_email": "alarm_ganzi@cestc.cn",  # 发件人邮箱
     "sender_auth_code": "AAE4292D192ED3FF",  # 替换为实际授权码（核心修改：授权码替代密码）
-    "receiver_emails": ["2332586642@qq.com",
-"lijing07@cestc.cn"],
+    "receiver_emails": ["2332586642@qq.com","2374176823@qq.com"],
     "email_subject_template": "【甘孜云】【威胁通告】关于{}"  # 动态主题
 }
 
@@ -557,7 +556,7 @@ def batch_extract(urls: List[str], send_email: bool = True):
 # -------------------------- 执行入口 --------------------------
 if __name__ == "__main__":
     TARGET_URLS = [
-        'https://www.secrss.com/articles/86949',
+        'https://www.secrss.com/articles/89213',
         # 可添加更多漏洞网页URL
     ]
     batch_extract(TARGET_URLS, send_email=True)

@@ -1,0 +1,451 @@
+import imaplib
+import email
+import requests
+import socket
+from email.header import decode_header
+from datetime import datetime, timedelta, timezone
+import re
+import time
+import sys
+import os
+import json
+import ctypes
+import threading
+import logging
+import hashlib
+from logging.handlers import RotatingFileHandler
+
+
+# 检查是否以管理员身份运行
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False
+
+
+# 请求管理员权限重启程序
+def run_as_admin():
+    try:
+        script = os.path.abspath(sys.argv[0])
+        ctypes.windll.shell32.ShellExecuteW(
+            None, "runas", sys.executable, script, None, 1
+        )
+        return True
+    except Exception as e:
+        print(f"请求管理员权限失败: {str(e)}")
+        return False
+
+
+# ==================== 编码设置 ====================
+def setup_encoding():
+    os.environ["PYTHONUTF8"] = "1"
+    os.environ["LC_ALL"] = "en_US.UTF-8"
+    os.environ["LANG"] = "en_US.UTF-8"
+    if sys.platform.startswith('win32'):
+        try:
+            if sys.stdout is not None:
+                kernel32 = ctypes.windll.kernel32
+                kernel32.SetConsoleOutputCP(65001)
+                kernel32.SetConsoleCP(65001)
+        except:
+            pass
+
+
+setup_encoding()
+
+# ==================== 路径配置 ====================
+BASE_DIR = "D:\\云平台电话告警"
+KEYWORD_FILE = os.path.join(BASE_DIR, "ALARM_KEYWORDS.json")
+LOG_FILE = os.path.join(BASE_DIR, "monitor.log")
+EMAIL_STATE_FILE = os.path.join(BASE_DIR, "email_state.json")
+
+
+# 确保目录存在
+def ensure_base_dir():
+    try:
+        if not os.path.exists(BASE_DIR):
+            print(f"创建目录: {BASE_DIR}")
+            os.makedirs(BASE_DIR, exist_ok=True)
+        return True
+    except PermissionError:
+        print(f"权限错误: 无法创建目录 {BASE_DIR}")
+        if input("是否尝试以管理员身份重启? (y/n): ").lower() == 'y':
+            if run_as_admin():
+                sys.exit(0)
+        return False
+    except Exception as e:
+        print(f"创建目录时出错: {str(e)}")
+        return False
+
+
+def ensure_keyword_file():
+    if not os.path.exists(KEYWORD_FILE):
+        try:
+            with open(KEYWORD_FILE, 'w', encoding='utf-8') as f:
+                json.dump([], f, ensure_ascii=False, indent=2)
+            return True
+        except:
+            return False
+    return True
+
+
+# ==================== 日志 ====================
+def setup_logging():
+    class UnicodeSafeFormatter(logging.Formatter):
+        def format(self, record):
+            if isinstance(record.msg, str):
+                record.msg = record.msg.encode('utf-8', errors='replace').decode('utf-8')
+            elif isinstance(record.msg, bytes):
+                record.msg = record.msg.decode('utf-8', errors='replace')
+            return super().format(record)
+
+    log_format = UnicodeSafeFormatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    try:
+        file_handler = RotatingFileHandler(LOG_FILE, maxBytes=5 * 1024 * 1024, backupCount=3, encoding='utf-8')
+        file_handler.setFormatter(log_format)
+        logger = logging.getLogger()
+        logger.setLevel(logging.INFO)
+        logger.addHandler(file_handler)
+        if sys.stdout:
+            console = logging.StreamHandler()
+            console.setFormatter(log_format)
+            logger.addHandler(console)
+        return logger
+    except:
+        return None
+
+
+# ==================== 视频路径（完全你最初的写法） ====================
+def get_packed_video_path():
+    try:
+        video_filename = "告警.mp4"
+        if getattr(sys, 'frozen', False):
+            return os.path.join(sys._MEIPASS, video_filename)
+        else:
+            return os.path.join(os.path.dirname(os.path.abspath(__file__)), video_filename)
+    except:
+        return None
+
+
+# ==================== 初始化 ====================
+ensure_base_dir()
+ensure_keyword_file()
+logger = setup_logging()
+if not logger:
+    print("日志初始化失败")
+    time.sleep(10)
+    sys.exit(1)
+
+# ==================== 全局 ====================
+current_play_thread = None
+thread_lock = threading.Lock()
+
+IMAP_SERVER = 'imap.qq.com'
+IMAP_PORT = 993
+EMAIL = '2332586642@qq.com'
+PASSWORD = 'vzibdhsssvtzdhge'
+CHECK_FOLDERS = ['INBOX']
+TIME_RANGE_MINUTES = 3
+LOOP_INTERVAL = 45
+MAX_EMAILS_PER_PROCESS = 1000
+ALARM_KEYWORDS = []
+
+# 完全恢复你最初的接口地址
+ALARM_URL = "https://push.spug.cc/send/Xyd9M8Apv0rKbDBk"
+ALARM_TARGET = "18228188727"
+
+
+# ==================== 内容指纹 ====================
+def get_content_hash(body):
+    return hashlib.md5(body.encode('utf-8', errors='replace')).hexdigest()
+
+
+# ==================== 邮件状态 ====================
+def load_processed_emails():
+    try:
+        if os.path.exists(EMAIL_STATE_FILE):
+            with open(EMAIL_STATE_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+    except:
+        pass
+    return []
+
+
+def save_processed_email(eid, body=""):
+    try:
+        with thread_lock:
+            lst = load_processed_emails()
+            item = {"id": eid, "hash": get_content_hash(body)}
+            if item not in lst:
+                lst.append(item)
+                if len(lst) > 20000:
+                    lst = lst[-20000:]
+                with open(EMAIL_STATE_FILE, 'w', encoding='utf-8') as f:
+                    json.dump(lst, f, ensure_ascii=False, indent=2)
+    except:
+        pass
+
+
+def is_email_processed(eid, body=""):
+    processed = load_processed_emails()
+    item = {"id": eid, "hash": get_content_hash(body)}
+    return item in processed
+
+
+# ==================== 工具 ====================
+def load_keywords():
+    try:
+        with open(KEYWORD_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except:
+        return []
+
+
+def decode_str(s):
+    try:
+        parts = decode_header(s)
+        res = []
+        for p, enc in parts:
+            if isinstance(p, bytes):
+                res.append(p.decode(enc or 'utf-8', errors='replace'))
+            else:
+                res.append(str(p))
+        return ''.join(res)
+    except:
+        return str(s)
+
+
+def html_to_string(html):
+    try:
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(html, 'html.parser')
+        for t in soup(["script", "style"]):
+            t.decompose()
+        return soup.get_text(separator=' ', strip=True)
+    except:
+        return html
+
+
+def extract_info(text):
+    d = {"资源名称": None, "告警主机": None, "告警实例": None}
+    try:
+        d["资源名称"] = re.search(r"资源名称[:：]\s*([^，,\n]+)", text).group(1).strip()
+    except:
+        pass
+    try:
+        d["告警主机"] = re.search(r"告警主机[:：]\s*([^，,\n]+)", text).group(1).strip()
+    except:
+        pass
+    try:
+        d["告警实例"] = re.search(r"告警实例[:：]\s*([^，,\n]+)", text).group(1).strip()
+    except:
+        pass
+    return d
+
+
+def check_keywords(text):
+    if not ALARM_KEYWORDS:
+        return []
+    t = text.lower()
+    return [kw for kw in ALARM_KEYWORDS if kw.lower() in t]
+
+
+# ==================== 告警视频（完全你最初的写法） ====================
+def trigger_alarm(value):
+    global current_play_thread
+    if not value:
+        return
+
+    try:
+        data = {'key1': value, 'targets': ALARM_TARGET}
+        response = requests.post(ALARM_URL, json=data, timeout=10)
+        logger.info(f"✅ 电话告警请求成功：{response.text[:100]}")
+    except Exception as e:
+        logger.error(f"❌ 电话告警请求失败：{str(e)}")
+
+    try:
+        with thread_lock:
+            if current_play_thread is None or not current_play_thread.is_alive():
+                video_path = get_packed_video_path()
+                if video_path and os.path.exists(video_path):
+                    current_play_thread = threading.Thread(target=play_video, args=(video_path,), daemon=True)
+                    current_play_thread.start()
+                    logger.info("视频播放线程已启动")
+                else:
+                    logger.error("未找到视频文件，无法播放")
+    except Exception as e:
+        logger.error(f"视频启动失败：{str(e)}")
+
+
+def play_video(video_path):
+    try:
+        import vlc
+        instance = vlc.Instance("--quiet")
+        player = instance.media_player_new()
+        if sys.platform == "win32":
+            player.set_hwnd(ctypes.windll.user32.GetDesktopWindow())
+        for _ in range(10):
+            media = instance.media_new(video_path)
+            player.set_media(media)
+            player.play()
+            time.sleep(1)
+            while player.is_playing():
+                time.sleep(0.5)
+    except Exception as e:
+        logger.error(f"视频播放出错：{str(e)}")
+
+
+# ==================== 邮件解析 ====================
+def parse_mail_body(msg):
+    body = ""
+    try:
+        if msg.is_multipart():
+            for part in msg.walk():
+                ct = part.get_content_type()
+                if ct in ["text/plain", "text/html"]:
+                    payload = part.get_payload(decode=True)
+                    if payload:
+                        cs = part.get_content_charset() or "utf-8"
+                        txt = payload.decode(cs, errors='replace')
+                        if ct == "text/html":
+                            txt = html_to_string(txt)
+                        body += txt + "\n"
+        else:
+            payload = msg.get_payload(decode=True)
+            if payload:
+                cs = msg.get_content_charset() or "utf-8"
+                body = payload.decode(cs, errors='replace')
+                if msg.get_content_type() == "text/html":
+                    body = html_to_string(body)
+    except Exception as e:
+        logger.error(f"解析正文异常: {e}")
+    return body.strip()
+
+
+# ==================== 核心邮件处理 ====================
+def process_emails():
+    logger.info("\n======================================")
+    logger.info(f"开始检查 - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    mail = None
+
+    try:
+        now = datetime.now()
+        start_time = now - timedelta(minutes=TIME_RANGE_MINUTES)
+        imap_date = start_time.strftime("%d-%b-%Y")
+
+        mail = imaplib.IMAP4_SSL(IMAP_SERVER, IMAP_PORT)
+        mail.login(EMAIL, PASSWORD)
+        logger.info("登录邮箱成功")
+
+        all_recent = []
+
+        for folder in CHECK_FOLDERS:
+            try:
+                stat, cnt = mail.select(folder, readonly=True)
+                if stat != 'OK':
+                    continue
+
+                stat, ids_data = mail.search(None, f'SINCE "{imap_date}"')
+                ids = ids_data[0].split()
+                total = len(ids)
+                logger.info(f"从 {folder} 搜索到符合日期邮件数: {total}")
+
+                cnt_ok = 0
+
+                for eid in ids:
+                    try:
+                        eid_str = eid.decode()
+                        stat, dt_data = mail.fetch(eid, '(INTERNALDATE)')
+                        if stat != 'OK':
+                            continue
+
+                        raw = dt_data[0].decode(errors='replace')
+                        match = re.search(r'INTERNALDATE "([^"]+)"', raw)
+                        if not match:
+                            continue
+
+                        internal_date = datetime.strptime(match.group(1), '%d-%b-%Y %H:%M:%S %z')
+                        bj_time = internal_date.astimezone(timezone(timedelta(hours=8))).replace(tzinfo=None)
+
+                        if bj_time >= start_time:
+                            all_recent.append({
+                                "id": eid_str,
+                                "folder": folder,
+                                "recv_time": internal_date
+                            })
+                            cnt_ok += 1
+                    except:
+                        continue
+
+                logger.info(f"{folder} 符合近3分钟新邮件: {cnt_ok}")
+
+            except Exception as e:
+                logger.error(f"文件夹错误: {e}")
+                continue
+
+        new_mails = []
+        for m in all_recent:
+            try:
+                mail.select(m["folder"], readonly=True)
+                stat, data = mail.fetch(m["id"].encode(), "(RFC822)")
+                msg = email.message_from_bytes(data[0][1])
+                body = parse_mail_body(msg)
+
+                if not is_email_processed(m["id"], body):
+                    new_mails.append((m, msg, body))
+            except Exception as e:
+                continue
+
+        logger.info(f"本次待处理新邮件: {len(new_mails)}")
+
+        for idx, (m, msg, body) in enumerate(new_mails, 1):
+            try:
+                logger.info(f"\n--- 处理新邮件 {idx}/{len(new_mails)} ID:{m['id']} ---")
+                subject = decode_str(msg.get('Subject', '无主题'))
+                sender = decode_str(msg.get('From', ''))
+                recv_time = m['recv_time'].astimezone(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M:%S")
+
+                logger.info(f"主题: {subject}")
+                logger.info(f"发件人: {sender}")
+                logger.info(f"接收时间: {recv_time}")
+                preview = body[:500].replace('\n', ' ')
+                logger.info(f"正文预览: {preview}")
+
+                matches = check_keywords(body)
+                if matches:
+                    logger.warning(f"✅ 命中关键字: {matches}")
+                    info = extract_info(body)
+                    alarm_val = info["资源名称"] or info["告警主机"] or info["告警实例"] or subject
+                    trigger_alarm(alarm_val)
+                else:
+                    logger.info("未匹配关键字")
+
+                save_processed_email(m['id'], body)
+
+            except Exception as e:
+                logger.error(f"处理失败: {e}")
+                continue
+
+    except Exception as e:
+        logger.error(f"主流程错误: {e}")
+    finally:
+        if mail:
+            try:
+                mail.logout()
+            except:
+                pass
+
+
+# ==================== 主循环 ====================
+def main():
+    global ALARM_KEYWORDS
+    logger.info("邮件告警监控已启动")
+    while True:
+        ALARM_KEYWORDS = load_keywords()
+        process_emails()
+        time.sleep(LOOP_INTERVAL)
+
+
+if __name__ == '__main__':
+    main()

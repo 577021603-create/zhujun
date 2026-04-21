@@ -1,195 +1,105 @@
-import hmac
-import hashlib
-import base64
-import datetime
-import urllib.parse
-from typing import Dict, List, Optional, Tuple
+import boto3
+from botocore.config import Config
+from botocore.exceptions import ClientError
+import urllib3
+
+# 忽略 SSL 警告（因 verify=False）
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# ====== Ceph S3 配置 ======
+CEPH_ENDPOINT = "http://10.1.26.236:20003"
+CEPH_ACCESS_KEY = "31qfugp5qGDyjlBbuIf6"
+CEPH_SECRET_KEY = "Pd0T7I4BwucrX0peXP6cTCMCU9jpPZNWNJWxQOO7"
+CEPH_REGION = "default-region"
 
 
-class SignatureGenerator:
-    """对象存储服务签名生成器，支持 AWS S3"""
-
-    def __init__(self, access_key: str, secret_key: str, region: str = 'us-east-1'):
-        """
-        初始化签名生成器
-
-        Args:
-            access_key: 访问密钥 ID
-            secret_key: 秘密访问密钥
-            region: 区域（默认 'us-east-1'）
-        """
-        self.access_key = "ZfwLQJcALh46LLUafdHA"
-        self.secret_key = "swJy0gLct4Ser0jCMTQpykdKTF5nhkbPUQzsNVDh"
-        self.region = "az1"
-
-    def generate_aws_sigv4(
-            self,
-            method: str,
-            host: str,
-            path: str,
-            query_params: Dict[str, str] = None,
-            headers: Dict[str, str] = None,
-            payload: bytes = b'',
-            service: str = 's3',
-            timestamp: Optional[datetime.datetime] = None
-    ) -> Tuple[str, Dict[str, str]]:
-        """
-        生成 AWS S3 签名版本 4
-
-        Args:
-            method: HTTP 请求方法（GET、POST 等）
-            host: 主机名
-            path: 请求路径
-            query_params: 查询参数
-            headers: 请求头
-            payload: 请求负载（字节）
-            service: 服务名（默认 's3'）
-            timestamp: 时间戳（默认当前时间）
-
-        Returns:
-            Tuple[Authorization头部, 包含必需头部的完整请求头]
-        """
-        # 默认值
-        query_params = query_params or {}
-        headers = headers or {}
-        timestamp = timestamp or datetime.datetime.utcnow()
-
-        # 格式化时间
-        amz_date = timestamp.strftime('%Y%m%dT%H%M%SZ')
-        date_stamp = timestamp.strftime('%Y%m%d')
-
-        # 构建规范请求
-        canonical_headers = self._get_canonical_headers(headers)
-        signed_headers = ';'.join(sorted([k.lower() for k in headers.keys()]))
-
-        # 对路径和查询参数进行编码
-        encoded_path = self._encode_uri_component(path)
-        canonical_querystring = self._get_canonical_querystring(query_params)
-
-        # 计算 payload 哈希
-        payload_hash = hashlib.sha256(payload).hexdigest()
-
-        # 构建规范请求
-        canonical_request = (
-            f"{method}\n"
-            f"{encoded_path}\n"
-            f"{canonical_querystring}\n"
-            f"{canonical_headers}\n\n"
-            f"{signed_headers}\n"
-            f"{payload_hash}"
+def create_ceph_s3_client():
+    """创建 Ceph S3 客户端（强制 path-style）"""
+    try:
+        s3_client = boto3.client(
+            "s3",
+            endpoint_url=CEPH_ENDPOINT,
+            aws_access_key_id=CEPH_ACCESS_KEY,
+            aws_secret_access_key=CEPH_SECRET_KEY,
+            region_name=CEPH_REGION,
+            verify=False,
+            config=Config(
+                signature_version="s3v4",
+                retries={"max_attempts": 3},
+                s3={"addressing_style": "path"}  # 关键：避免虚拟主机式解析
+            )
         )
+        # 简单测试：尝试列出桶（不报错即连通）
+        s3_client.list_buckets()
+        print("✅ Ceph S3 客户端连接成功")
+        return s3_client
+    except Exception as e:
+        print(f"❌ 无法连接 Ceph S3: {e}")
+        return None
 
-        # 构建待签字符串
-        algorithm = 'AWS4-HMAC-SHA256'
-        credential_scope = f"{date_stamp}/{self.region}/{service}/aws4_request"
-        string_to_sign = (
-            f"{algorithm}\n"
-            f"{amz_date}\n"
-            f"{credential_scope}\n"
-            f"{hashlib.sha256(canonical_request.encode('utf-8')).hexdigest()}"
-        )
 
-        # 生成签名密钥
-        signing_key = self._get_signature_key(self.secret_key, date_stamp, self.region, service)
+def create_bucket_indirectly(s3_client, bucket_name):
+    """
+    通过上传一个临时对象间接创建桶（绕过 CreateBucket 的 InvalidRange Bug）
+    """
+    temp_key = ".bucket-init-marker"
+    try:
+        # 上传一个空对象 → 自动创建桶（如果允许）
+        s3_client.put_object(Bucket=bucket_name, Key=temp_key, Body=b"")
+        print(f"✅ 桶 '{bucket_name}' 创建成功（通过 put_object）")
+        # 清理临时对象
+        s3_client.delete_object(Bucket=bucket_name, Key=temp_key)
+        return True
+    except ClientError as e:
+        error_code = e.response['Error']['Code']
+        if error_code == 'BucketAlreadyOwnedByYou':
+            print(f"ℹ️  桶 '{bucket_name}' 已存在且属于你")
+            return True
+        elif error_code == 'NoSuchBucket':
+            # 理论上不会出现，因为 put_object 会自动建桶
+            print(f"❌ 桶创建失败：RGW 可能禁止用户自动创建桶")
+            return False
+        elif 'AccessDenied' in str(e):
+            print(f"❌ 权限不足：无法创建桶或上传对象")
+            return False
+        else:
+            print(f"❌ 创建桶时发生未知错误: {e}")
+            return False
+    except Exception as e:
+        print(f"❌ 创建桶异常: {e}")
+        return False
 
-        # 计算签名
-        signature = hmac.new(
-            signing_key,
-            string_to_sign.encode('utf-8'),
-            hashlib.sha256
-        ).hexdigest()
 
-        # 构建 Authorization 头部
-        authorization_header = (
-            f"{algorithm} Credential={self.access_key}/{credential_scope}, "
-            f"SignedHeaders={signed_headers}, Signature={signature}"
-        )
-
-        # 添加必需的头部
-        headers['x-amz-date'] = amz_date
-        headers['Host'] = host
-
-        return authorization_header, headers
-
-    def _get_canonical_headers(self, headers: Dict[str, str]) -> str:
-        """获取规范化的请求头"""
-        canonical_headers = []
-        for k, v in sorted(headers.items(), key=lambda x: x[0].lower()):
-            key = k.lower().strip()
-            value = v.strip()
-            canonical_headers.append(f"{key}:{value}")
-        return '\n'.join(canonical_headers)
-
-    def _get_canonical_querystring(self, params: Dict[str, str]) -> str:
-        """获取规范化的查询字符串"""
-        if not params:
-            return ''
-
-        # 排序并编码参数
-        sorted_params = sorted(params.items())
-        encoded_params = []
-
-        for k, v in sorted_params:
-            # AWS 特殊编码规则
-            encoded_k = urllib.parse.quote(k, safe='-_.~')
-            encoded_v = urllib.parse.quote(v, safe='-_.~')
-            encoded_params.append(f"{encoded_k}={encoded_v}")
-
-        return '&'.join(encoded_params)
-
-    def _get_signature_key(self, key: str, date_stamp: str, region_name: str, service_name: str) -> bytes:
-        """生成 AWS 签名密钥"""
-        k_date = hmac.new(('AWS4' + key).encode('utf-8'), date_stamp.encode('utf-8'), hashlib.sha256).digest()
-        k_region = hmac.new(k_date, region_name.encode('utf-8'), hashlib.sha256).digest()
-        k_service = hmac.new(k_region, service_name.encode('utf-8'), hashlib.sha256).digest()
-        k_signing = hmac.new(k_service, b'aws4_request', hashlib.sha256).digest()
-        return k_signing
+def verify_bucket_exists(s3_client, bucket_name):
+    """验证桶是否在用户桶列表中"""
+    try:
+        buckets = s3_client.list_buckets().get('Buckets', [])
+        bucket_names = [b['Name'] for b in buckets]
+        if bucket_name in bucket_names:
+            print(f"✅ 验证成功：桶 '{bucket_name}' 存在于你的账户中")
+        else:
+            print(f"⚠️  验证失败：桶 '{bucket_name}' 不在列表中（可能权限隔离）")
+    except Exception as e:
+        print(f"❌ 验证桶失败: {e}")
 
 
 if __name__ == "__main__":
-    # 示例：生成 S3 GET 对象请求的签名
-    ACCESS_KEY = "your_access_key_here"  # 替换为你的 Access Key
-    SECRET_KEY = "your_secret_key_here"  # 替换为你的 Secret Key
-    REGION = "us-east-1"  # 替换为你的区域
+    # 修改为你自己的唯一桶名（避免冲突）
+    BUCKET_NAME = "test-20260211-004"
 
-    # 创建签名生成器
-    generator = SignatureGenerator(
-        access_key=ACCESS_KEY,
-        secret_key=SECRET_KEY,
-        region=REGION
-    )
+    print(f"🔧 尝试创建桶: {BUCKET_NAME}")
 
-    # 设置请求参数
-    method = "GET"
-    host = "your-bucket.s3.us-east-1.amazonaws.com"
-    path = "/test-object.txt"
-    query_params = {}
-    headers = {
-        "Content-Type": "application/octet-stream"
-    }
-    payload = b""
+    # 1. 创建客户端
+    client = create_ceph_s3_client()
+    if not client:
+        exit(1)
 
-    # 生成签名
-    auth_header, final_headers = generator.generate_aws_sigv4(
-        method=method,
-        host=host,
-        path=path,
-        query_params=query_params,
-        headers=headers,
-        payload=payload
-    )
+    # 2. 间接创建桶（核心 workaround）
+    success = create_bucket_indirectly(client, BUCKET_NAME)
 
-    # 打印结果
-    print("生成的 Authorization 头部:")
-    print(auth_header)
-    print("\n完整请求头:")
-    for key, value in final_headers.items():
-        print(f"{key}: {value}")
-
-    # 打印完整的 curl 命令示例
-    print("\n\n完整的 curl 命令示例:")
-    curl_cmd = f"curl -X {method} \\\n"
-    for key, value in final_headers.items():
-        curl_cmd += f'  -H "{key}: {value}" \\\n'
-    curl_cmd += f"  https://{host}{path}"
-    print(curl_cmd)
+    # 3. 验证
+    if success:
+        verify_bucket_exists(client, BUCKET_NAME)
+    else:
+        print("🛑 桶创建失败，退出。")
+        exit(1)
