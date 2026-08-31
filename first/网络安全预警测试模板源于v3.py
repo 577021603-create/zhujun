@@ -556,7 +556,7 @@ def batch_extract(urls: List[str], send_email: bool = True):
 # -------------------------- 执行入口 --------------------------
 if __name__ == "__main__":
     TARGET_URLS = [
-        'https://www.secrss.com/articles/89213',
+        'https://www.secrss.com/articles/90044',
         # 可添加更多漏洞网页URL
     ]
     batch_extract(TARGET_URLS, send_email=True)

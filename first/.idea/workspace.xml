@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea1d73d7-11af-4cc7-8275-a34f6a4e376a" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/1.txt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/1.txt.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/网络安全预警测试模板源于v3.py" beforeDir="false" afterPath="$PROJECT_DIR$/网络安全预警测试模板源于v3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/网络安全预警通告_V3.py" beforeDir="false" afterPath="$PROJECT_DIR$/网络安全预警通告_V3.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,15 +37,15 @@
     <branch-grouping />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitLabMergeRequestFiltersHistory"><![CDATA[{
-  "lastFilter": {}
-}]]></component>
-  <component name="GitLabMergeRequestsSettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "first": "http://192.168.1.105:82/zhujun/zhujun.git",
-    "second": "9a188c6e-2c58-44bb-8908-c70b9920aed7"
+  <component name="GitLabMergeRequestFiltersHistory">{
+  &quot;lastFilter&quot;: {}
+}</component>
+  <component name="GitLabMergeRequestsSettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;first&quot;: &quot;http://192.168.1.105:82/zhujun/zhujun.git&quot;,
+    &quot;second&quot;: &quot;9a188c6e-2c58-44bb-8908-c70b9920aed7&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
     <option name="showPreview" value="true" />
@@ -122,7 +124,7 @@
     "node.js.selected.package.stylelint": "",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "qoder.settings.plugin",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -275,7 +277,15 @@
       <workItem from="1776062582318" duration="3034000" />
       <workItem from="1776130854439" duration="1616000" />
       <workItem from="1776774208552" duration="1047000" />
-      <workItem from="1776775281980" duration="3471000" />
+      <workItem from="1776775281980" duration="4201000" />
+      <workItem from="1777514215687" duration="3187000" />
+      <workItem from="1778654596216" duration="1210000" />
+      <workItem from="1778746324598" duration="334000" />
+      <workItem from="1779413834237" duration="111000" />
+      <workItem from="1780538590804" duration="92000" />
+      <workItem from="1788146676687" duration="624000" />
+      <workItem from="1788147325195" duration="38000" />
+      <workItem from="1788147376321" duration="1433000" />
     </task>
     <task id="LOCAL-00001" summary="Changes">
       <option name="closed" value="true" />
@@ -309,7 +319,23 @@
       <option name="project" value="LOCAL" />
       <updated>1776778674730</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Changes">
+      <option name="closed" value="true" />
+      <created>1776778816106</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1776778816106</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Changes">
+      <option name="closed" value="true" />
+      <created>1776778863594</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1776778863594</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -379,12 +405,12 @@
     <SUITE FILE_PATH="coverage/ALARM_MONITOR_V4_py$email2.coverage" NAME="email2 覆盖结果" MODIFIED="1756277913982" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ALARM_MONITOR_V4_py$stroage.coverage" NAME="stroage 覆盖结果" MODIFIED="1758686612205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/first$html.coverage" NAME="html 覆盖结果" MODIFIED="1748934183363" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/NAME_py$.coverage" NAME="批量导出交换机配置 覆盖结果" MODIFIED="1774938338671" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/NAME_py$.coverage" NAME="批量导出交换机配置 覆盖结果" MODIFIED="1777515200735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ALARM_MONITOR_V4_py$ALARM_MONITOR_V7.coverage" NAME="ALARM_MONITOR_V7 覆盖结果" MODIFIED="1757466265761" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/webpages" />
     <SUITE FILE_PATH="coverage/ALARM_MONITOR_V3_py$ALARM_MONITOR_V4.coverage" NAME="ALARM_MONITOR_V4 覆盖结果" MODIFIED="1754897803922" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/webpages" />
     <SUITE FILE_PATH="coverage/NAME_py$ALARM_MONITOR_V8.coverage" NAME="ALARM_MONITOR_V8 覆盖结果" MODIFIED="1775972086370" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/NAME_py$storage.coverage" NAME="storage存储巡检 覆盖结果" MODIFIED="1766717113021" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/NAME_py$v3.coverage" NAME="网络安全预警测试模板源于v3 覆盖结果" MODIFIED="1776132239806" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/NAME_py$v3.coverage" NAME="网络安全预警测试模板源于v3 覆盖结果" MODIFIED="1778656769713" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/NAME_py$love2.coverage" NAME="love2 覆盖结果" MODIFIED="1768032725188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/love_heart" />
     <SUITE FILE_PATH="coverage/NAME_py$emailtest.coverage" NAME="emailtest 覆盖结果" MODIFIED="1766720162168" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/first$oss.coverage" NAME="oss 覆盖结果" MODIFIED="1749116292594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -398,7 +424,7 @@
     <SUITE FILE_PATH="coverage/ALARM_MONITOR_V4_py$ALARM_MONITOR_V6.coverage" NAME="ALARM_MONITOR_V6 覆盖结果" MODIFIED="1757040574158" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/NAME_py$V4.coverage" NAME="网络安全预警V4 覆盖结果" MODIFIED="1765767365254" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/NAME_py$delete_auto_bakup.coverage" NAME="delete_auto_bakup 覆盖结果" MODIFIED="1766821093529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/NAME_py$_V3.coverage" NAME="网络安全预警通告_V3 覆盖结果" MODIFIED="1776132394000" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/NAME_py$_V3.coverage" NAME="网络安全预警通告_V3 覆盖结果" MODIFIED="1778746419400" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ALARM_MONITOR_V4_py$.coverage" NAME="批量导出交换机配置 覆盖结果" MODIFIED="1759827168835" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/NAME_py$ALARM_MONITOR_V9.coverage" NAME="ALARM_MONITOR_V9 覆盖结果" MODIFIED="1775978986434" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ALARM_MONITOR_V4_py$ALARM_MONITOR_V5_logging.coverage" NAME="ALARM_MONITOR_V5_新增logging模块，优化程序假死 覆盖结果" MODIFIED="1757034172027" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../云平台电话告警" />
