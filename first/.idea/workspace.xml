@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ea1d73d7-11af-4cc7-8275-a34f6a4e376a" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/12306网页.html" beforeDir="false" afterPath="$PROJECT_DIR$/12306网页.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +94,7 @@
     &quot;Python.storage2.executor&quot;: &quot;Run&quot;,
     &quot;Python.storage存储巡检.executor&quot;: &quot;Run&quot;,
     &quot;Python.stroage.executor&quot;: &quot;Run&quot;,
+    &quot;Python.工单自动处理脚本.executor&quot;: &quot;Run&quot;,
     &quot;Python.弹窗问候.executor&quot;: &quot;Run&quot;,
     &quot;Python.批量修改linux密码.executor&quot;: &quot;Run&quot;,
     &quot;Python.批量导出交换机配置.executor&quot;: &quot;Run&quot;,
@@ -111,10 +113,11 @@
     &quot;Python.网络安全预警通告_V3.executor&quot;: &quot;Run&quot;,
     &quot;Python.自动巡检.executor&quot;: &quot;Run&quot;,
     &quot;Python.自动巡检_已完成计算资源-政务网块统计.executor&quot;: &quot;Run&quot;,
+    &quot;Python.自动巡检_已完成计算资源统计.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/python project/first&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/云平台电话告警&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -284,6 +287,9 @@
       <workItem from="1788146676687" duration="624000" />
       <workItem from="1788147325195" duration="38000" />
       <workItem from="1788147376321" duration="1433000" />
+      <workItem from="1788167516754" duration="2224000" />
+      <workItem from="1788225255015" duration="111000" />
+      <workItem from="1788225532650" duration="142000" />
     </task>
     <task id="LOCAL-00001" summary="Changes">
       <option name="closed" value="true" />
@@ -341,7 +347,23 @@
       <option name="project" value="LOCAL" />
       <updated>1788163612139</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Changes">
+      <option name="closed" value="true" />
+      <created>1788164519587</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1788164519587</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Changes">
+      <option name="closed" value="true" />
+      <created>1788225589417</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1788225589417</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -411,7 +433,7 @@
     <SUITE FILE_PATH="coverage/ALARM_MONITOR_V4_py$email2.coverage" NAME="email2 覆盖结果" MODIFIED="1756277913982" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ALARM_MONITOR_V4_py$stroage.coverage" NAME="stroage 覆盖结果" MODIFIED="1758686612205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/first$html.coverage" NAME="html 覆盖结果" MODIFIED="1748934183363" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/NAME_py$.coverage" NAME="批量导出交换机配置 覆盖结果" MODIFIED="1777515200735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/NAME_py$.coverage" NAME="工单自动处理脚本 覆盖结果" MODIFIED="1788169727171" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ALARM_MONITOR_V4_py$ALARM_MONITOR_V7.coverage" NAME="ALARM_MONITOR_V7 覆盖结果" MODIFIED="1757466265761" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/webpages" />
     <SUITE FILE_PATH="coverage/ALARM_MONITOR_V3_py$ALARM_MONITOR_V4.coverage" NAME="ALARM_MONITOR_V4 覆盖结果" MODIFIED="1754897803922" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/webpages" />
     <SUITE FILE_PATH="coverage/NAME_py$ALARM_MONITOR_V8.coverage" NAME="ALARM_MONITOR_V8 覆盖结果" MODIFIED="1775972086370" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -422,7 +444,7 @@
     <SUITE FILE_PATH="coverage/first$oss.coverage" NAME="oss 覆盖结果" MODIFIED="1749116292594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/first$TEST.coverage" NAME="TEST 覆盖结果" MODIFIED="1749125420095" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/NAME_py$ALARM_MONITOR_V6.coverage" NAME="ALARM_MONITOR_V6 覆盖结果" MODIFIED="1765087432848" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/NAME_py$__.coverage" NAME="自动巡检_已完成计算资源-政务网块统计 覆盖结果" MODIFIED="1766719313619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/NAME_py$__.coverage" NAME="自动巡检_已完成计算资源-政务网块统计 覆盖结果" MODIFIED="1788168157896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/NAME_py$email2.coverage" NAME="email2 覆盖结果" MODIFIED="1753434567702" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ALARM_MONITOR_V4_py$ALARM_MONITOR_V5.coverage" NAME="ALARM_MONITOR_V5 覆盖结果" MODIFIED="1756870036643" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ALARM_MONITOR_V4_py$storage.coverage" NAME="storage 覆盖结果" MODIFIED="1759031208111" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -449,5 +471,6 @@
     <SUITE FILE_PATH="coverage/NAME_py$deletebakup.coverage" NAME="delete——bakup 覆盖结果" MODIFIED="1767524365999" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/NAME_py$email3.coverage" NAME="email3 覆盖结果" MODIFIED="1753350167335" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/NAME_py$_V2.coverage" NAME="网络安全预警通告_V2 覆盖结果" MODIFIED="1765781813288" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/NAME_py$_.coverage" NAME="自动巡检_已完成计算资源统计 覆盖结果" MODIFIED="1788168143842" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
