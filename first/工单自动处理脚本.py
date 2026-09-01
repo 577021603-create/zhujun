@@ -1,107 +1,53 @@
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 
-# 配置信息
-DRIVER_PATH = "D:\\python project\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe"
-
+# ==========配置区============
+URL = "https://css.cloud.inspur.com/platform/dashboard#state=23f2201d-512b-4708-a3af-1b5e6cf0a00f&session_state=c324da4b-ef55-4a39-a020-a1e3c2a0379d&code=eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0..z5Xd8P0hdLasvHrm7mI1Zg.aY1Sj6Ia3QkJka1WAAxwt7mktKNeOIMU43P923MYd1nKZbU2m2bw40KRfRA-JsREF8xborIUgnNdwrpDmOpfRbnoxXrF-CuHPaG4UpZMdvwN-jwUqtXK6-aJxbR-l78aTTb0eqCOPT9oqv6Cm1viFLius-XDzvO-nvCW8S3vB5NyigKEys_3q_zLmY9rNQlZy8kiQGG4YUwcZ46--1unCnSCfEPW-pibIXhtNZ0ElPpDAyrwq_VmTfxv99HDN59Q4WzL6L9ru6XMrijKQRP8VsmQx2jN9CCCWomBHpmXERWYAZsUrPeCqoX7aaL55kq0ubunEU0L_9sdSGFssoE_5w.tuhAB8palmEoV48Dn8yAwA"
+USERNAME = "ccsss-zhujun"
+PASSWORD = "Zscvh456873691!"
+DRIVER_PATH = r"D:\python project\chromedriver-win64\chromedriver-win64\chromedriver.exe"
+# ============================
 
 def main():
-    """主函数 - 百度填充测试"""
-    driver = None
+    service = Service(executable_path=DRIVER_PATH)
+    options = webdriver.ChromeOptions()
+    # options.add_argument("--headless=new")  # 需要无头模式取消注释
+    driver = webdriver.Chrome(service=service, options=options)
+    driver.maximize_window()
+
     try:
-        print("=" * 60)
-        print("工单自动处理脚本 - 百度填充测试")
-        print("=" * 60)
+        print(f"正在打开网页：{URL}")
+        driver.get(URL)
 
-        # 初始化浏览器选项
-        print("\n[1] 正在启动浏览器...")
-        options = webdriver.ChromeOptions()
-        options.add_argument("--disable-gpu")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--window-size=1920,1080")
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        
-        # 尝试使用自动ChromeDriver管理（Selenium 4.6+）
-        try:
-            print("  尝试使用自动ChromeDriver管理...")
-            driver = webdriver.Chrome(options=options)
-            print("  ✓ 自动ChromeDriver管理成功")
-        except Exception as e:
-            print(f"  自动管理失败: {str(e)}")
-            print("  尝试使用手动指定的ChromeDriver...")
-            
-            # 检查手动指定的驱动是否存在
-            import os
-            if os.path.exists(DRIVER_PATH):
-                service = Service(executable_path=DRIVER_PATH)
-                driver = webdriver.Chrome(service=service, options=options)
-                print(f"  ✓ 使用手动驱动: {DRIVER_PATH}")
-            else:
-                print("  ✗ 手动驱动也不存在，请安装匹配的ChromeDriver")
-                return
+        wait = WebDriverWait(driver, 20)
 
-        # 访问百度
-        print("\n[2] 正在访问百度...")
-        driver.get("https://www.baidu.com")
-        time.sleep(3)
-        
-        current_url = driver.current_url
-        print(f"  当前URL: {current_url}")
-        print(f"  页面标题: {driver.title}")
+        # keycloak账号密码输入框
+        username_input = wait.until(EC.element_to_be_clickable((By.NAME, "username")))
+        password_input = wait.until(EC.element_to_be_clickable((By.NAME, "password")))
 
-        # 在百度搜索框输入内容
-        print("\n[3] 正在搜索框输入内容...")
-        
-        # 方式1: 通过id查找搜索框
-        try:
-            search_box = driver.find_element(By.ID, "kw")
-            print("  ✓ 通过ID找到搜索框 (id='kw')")
-        except:
-            # 方式2: 通过name查找
-            search_box = driver.find_element(By.NAME, "wd")
-            print("  ✓ 通过Name找到搜索框 (name='wd')")
-        
-        # 清空并输入
-        search_box.clear()
-        time.sleep(0.5)
-        search_box.send_keys("工单自动处理")
-        print("  ✓ 已输入: '工单自动处理'")
-        time.sleep(1)
+        username_input.clear()
+        username_input.send_keys(USERNAME)
+        password_input.clear()
+        password_input.send_keys(PASSWORD)
 
-        # 点击搜索按钮
-        print("\n[4] 正在点击搜索按钮...")
-        search_button = driver.find_element(By.ID, "su")
-        search_button.click()
-        print("  ✓ 已点击搜索按钮")
-        time.sleep(3)
+        # 登录按钮 xpath //*[@id="kc-login"]
+        login_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="kc-login"]')))
+        login_btn.click()
 
-        # 保存结果截图
-        print("\n[5] 保存搜索结果截图...")
-        driver.save_screenshot("baidu_search_result.png")
-        print("  ✓ 截图已保存: baidu_search_result.png")
-
-        # 等待用户查看
-        print("\n" + "=" * 60)
-        print("测试完成！")
-        print("请查看：")
-        print("  - 浏览器窗口中的搜索结果")
-        print("  - 截图: baidu_search_result.png")
-        print("=" * 60)
-        
-        print("\n按回车键关闭浏览器...")
-        input()
+        print("已点击登录，等待页面跳转...")
+        time.sleep(10)
+        print(f"跳转后URL: {driver.current_url}")
+        time.sleep(600)
+        input("执行完毕，按回车关闭浏览器...")
 
     except Exception as e:
-        print(f"\n✗ 发生错误: {str(e)}")
-        if driver:
-            driver.save_screenshot("search_error.png")
-            print("错误截图已保存: search_error.png")
+        print(f"程序异常：{e}")
     finally:
-        if driver:
-            driver.quit()
-            print("✓ 浏览器已关闭")
+        driver.quit()
 
 
 if __name__ == "__main__":
