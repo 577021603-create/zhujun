@@ -34,16 +34,27 @@ def main():
         password_input.clear()
         password_input.send_keys(PASSWORD)
 
-        # 登录按钮 xpath //*[@id="kc-login"]
+        # 登录按钮
         login_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="kc-login"]')))
+        time.sleep(5)
+        print("等待登录页面加载完成")
         login_btn.click()
+        print("已点击登录，等待输入谷歌验证码，等待页面加载完成")
+        time.sleep(15)
+        # 等待登录后第一个可点击元素
+        print("尝试点击第一个元素，工单查询")
+        elem1 = wait.until(EC.element_to_be_clickable((By.XPATH, '/html/body/app-root/default/div[1]/nav/div/ul/li[8]')))
+        elem1.click()
+        print("已点击完成第一个元素")
+        time.sleep(3)
+        print("等待3秒完毕，准备点击第二个元素")
 
-        print("已点击登录，等待页面跳转...")
-        time.sleep(10)
-        print(f"跳转后URL: {driver.current_url}")
-        time.sleep(600)
-        input("执行完毕，按回车关闭浏览器...")
+        elem2 = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="Watermark"]/div[2]/app-tab/div/app-workorder/div/div[1]/div[2]/div[1]')))
+        elem2.click()
+        print("已点击第二个元素")
 
+        print(f"操作完成，当前URL: {driver.current_url}")
+        input("")
     except Exception as e:
         print(f"程序异常：{e}")
     finally:
