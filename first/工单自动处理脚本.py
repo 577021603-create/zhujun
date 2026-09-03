@@ -65,12 +65,31 @@ def main():
         table_container = WebDriverWait(driver, 8).until(
             EC.presence_of_element_located((By.XPATH, table_container_xpath))
         )
-        # 在容器内部查找所有tbody行
+
         all_tr = table_container.find_elements(By.XPATH, './/tbody/tr')
-        print(f"表格一共检测到 {len(all_tr)} 条工单行")
+        print(f"\n📋表格总行数：{len(all_tr)}")
+        print("-"*60)
+        # 只打印表格可读信息
+        for idx, tr in enumerate(all_tr):
+            row_no = idx + 1
+            level_text = "无级别标签"
+            has_deal_button = False
+            try:
+                level_elem = tr.find_element(By.XPATH, './/td[6]/div/app-workorder-status-label')
+                level_text = level_elem.text.strip()
+            except NoSuchElementException:
+                pass
+
+            try:
+                tr.find_element(By.XPATH, './/td[30]/div/button[1]')
+                has_deal_button = True
+            except NoSuchElementException:
+                pass
+            print(f"行{row_no:2d} | 工单级别：{level_text:<8} | 是否有处理按钮：{has_deal_button}")
+        print("-"*60,"\n")
 
         hit = False
-        # 循环遍历每一行
+        # 循环遍历每一行做业务判断
         for idx, tr in enumerate(all_tr):
             try:
                 # 当前行内：级别标签
