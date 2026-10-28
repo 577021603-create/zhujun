@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea1d73d7-11af-4cc7-8275-a34f6a4e376a" name="Changes" comment="已能解析表单，提取表单">
-      <change beforePath="$PROJECT_DIR$/../chromedriver-win64/chromedriver-win64/LICENSE.chromedriver" beforeDir="false" afterPath="$PROJECT_DIR$/../chromedriver-win64/chromedriver-win64/LICENSE.chromedriver" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chromedriver-win64/chromedriver-win64/THIRD_PARTY_NOTICES.chromedriver" beforeDir="false" afterPath="$PROJECT_DIR$/../chromedriver-win64/chromedriver-win64/THIRD_PARTY_NOTICES.chromedriver" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../chromedriver-win64/chromedriver-win64/chromedriver.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../chromedriver-win64/chromedriver-win64/chromedriver.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TEST.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +127,7 @@
     &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;qoder.settings.plugin&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -341,6 +338,25 @@
       <workItem from="1789868688621" duration="93000" />
       <workItem from="1789889532781" duration="2781000" />
       <workItem from="1789903135335" duration="2884000" />
+      <workItem from="1790047220832" duration="1543000" />
+      <workItem from="1790064451156" duration="3751000" />
+      <workItem from="1790083376001" duration="1225000" />
+      <workItem from="1790149853906" duration="12000" />
+      <workItem from="1790645779002" duration="7725000" />
+      <workItem from="1790684113989" duration="1060000" />
+      <workItem from="1790908830957" duration="4890000" />
+      <workItem from="1791104937800" duration="61000" />
+      <workItem from="1791105009426" duration="3798000" />
+      <workItem from="1791598653493" duration="152000" />
+      <workItem from="1791773551630" duration="1412000" />
+      <workItem from="1791785925126" duration="2815000" />
+      <workItem from="1791822849631" duration="317000" />
+      <workItem from="1791823213729" duration="680000" />
+      <workItem from="1792114558003" duration="7082000" />
+      <workItem from="1792156006225" duration="1639000" />
+      <workItem from="1792460032535" duration="5003000" />
+      <workItem from="1792500720659" duration="657000" />
+      <workItem from="1793018450605" duration="1453000" />
     </task>
     <task id="LOCAL-00001" summary="Changes">
       <option name="closed" value="true" />
@@ -478,7 +494,15 @@
       <option name="project" value="LOCAL" />
       <updated>1789367579936</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="已能解析表单，提取表单">
+      <option name="closed" value="true" />
+      <created>1790047332215</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1790047332215</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -590,4 +614,6 @@
     <SUITE FILE_PATH="coverage/NAME_py$deletebakup.coverage" NAME="delete——bakup 覆盖结果" MODIFIED="1767524365999" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/NAME_py$email3.coverage" NAME="email3 覆盖结果" MODIFIED="1753350167335" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/NAME_py$_V2.coverage" NAME="网络安全预警通告_V2 覆盖结果" MODIFIED="1765781813288" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/NAME_py$_.coverage" NAME="工单自动处理-可正常使用，但是偶尔挂起操作无法找对下拉框 覆盖结果" MODIFIED="1789903147452" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJ
+    <SUITE FILE_PATH="coverage/NAME_py$_.coverage" NAME="工单自动处理-可正常使用，但是偶尔挂起操作无法找对下拉框 覆盖结果" MODIFIED="1793018458925" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
