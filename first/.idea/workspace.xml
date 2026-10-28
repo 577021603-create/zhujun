@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea1d73d7-11af-4cc7-8275-a34f6a4e376a" name="Changes" comment="已能解析表单，提取表单">
-      <change beforePath="$PROJECT_DIR$/../chromedriver-win64/chromedriver-win64/chromedriver.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../chromedriver-win64/chromedriver-win64/chromedriver.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/55.txt" beforeDir="false" afterPath="$PROJECT_DIR$/55.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -357,6 +356,7 @@
       <workItem from="1792460032535" duration="5003000" />
       <workItem from="1792500720659" duration="657000" />
       <workItem from="1793018450605" duration="1453000" />
+      <workItem from="1793149360545" duration="268000" />
     </task>
     <task id="LOCAL-00001" summary="Changes">
       <option name="closed" value="true" />
@@ -502,7 +502,15 @@
       <option name="project" value="LOCAL" />
       <updated>1790047332215</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="已能解析表单，提取表单">
+      <option name="closed" value="true" />
+      <created>1793149497274</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1793149497274</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
